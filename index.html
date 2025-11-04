@@ -149,7 +149,7 @@
 				<!-- Option 2: Files in GitHub (absolute URL)
             Replace 'username' and 'repo-name': -->
 
-				<!-- <a-asset-item
+				<a-asset-item
 					id="customPattern"
 					src="https://abusaeed-shuvo.github.io/arcard/markers/pattern-logo.patt"
 				>
@@ -159,16 +159,17 @@
 					id="businessModel"
 					src="https://abusaeed-shuvo.github.io/arcard/models/business-model.glb"
 				>
-				</a-asset-item> -->
+				</a-asset-item>
+
 				<!-- 				
             Option 3: Test with Hiro marker first
             Comment out the custom pattern above and uncomment this: -->
 
-				<a-asset-item
+				<!-- <a-asset-item
 					id="hiroPattern"
 					src="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/data/patt.hiro"
 				>
-				</a-asset-item>
+				</a-asset-item> -->
 			</a-assets>
 
 			<!-- 
@@ -178,17 +179,16 @@
         
         For CUSTOM PATTERN marker (your logo):
         -->
-			<!-- <a-marker
+			<a-marker
 				type="pattern"
 				url="https://abusaeed-shuvo.github.io/arcard/markers/pattern-logo.patt"
 				id="marker"
 				smoothCount="10"
 				smoothTolerance="0.01"
 				smoothThreshold="5"
-			> -->
-
-			<!-- Alternative: For HIRO marker (testing): -->
-			<a-marker preset="hiro" id="marker">
+			>
+				<!-- Alternative: For HIRO marker (testing): -->
+				<!-- <a-marker preset="hiro" id="marker"> -->
 				<!-- 
         Alternative: For BARCODE marker:
         <a-marker type="barcode" value="7" id="marker">
