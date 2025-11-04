@@ -140,6 +140,15 @@
             Option 1: Files in same repository
             Use relative paths:
             -->
+				<!-- <a-asset-item id="customPattern" src="./markers/pattern-logo.patt">
+				</a-asset-item>
+
+				<a-asset-item id="businessModel" src="./models/business-model.glb">
+				</a-asset-item> -->
+
+				<!-- Option 2: Files in GitHub (absolute URL)
+            Replace 'username' and 'repo-name': -->
+
 				<a-asset-item
 					id="customPattern"
 					src="https://abusaeed-shuvo.github.io/arcard/markers/pattern-logo.patt"
@@ -151,22 +160,6 @@
 					src="https://abusaeed-shuvo.github.io/arcard/models/business-model.glb"
 				>
 				</a-asset-item>
-
-				<!-- 
-            Option 2: Files in GitHub (absolute URL)
-            Replace 'username' and 'repo-name':
-            
-            <a-asset-item 
-                id="customPattern" 
-                src="https://username.github.io/repo-name/markers/pattern-logo.patt">
-            </a-asset-item>
-            
-            <a-asset-item 
-                id="businessModel" 
-                src="https://username.github.io/repo-name/models/business-model.glb">
-            </a-asset-item>
-            -->
-
 				<!-- 
             Option 3: Test with Hiro marker first
             Comment out the custom pattern above and uncomment this:
@@ -187,7 +180,7 @@
         -->
 			<a-marker
 				type="pattern"
-				url="./markers/pattern-logo.patt"
+				url="https://abusaeed-shuvo.github.io/arcard/markers/pattern-logo.patt"
 				id="marker"
 				smoothCount="10"
 				smoothTolerance="0.01"
