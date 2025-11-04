@@ -3,10 +3,9 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>AR Business Card - 3D Model</title>
+		<title>AR Business Card</title>
 		<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
 		<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-		<!-- GLTF Model component -->
 		<script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
 		<style>
 			body {
@@ -19,30 +18,36 @@
 				position: fixed;
 				top: 10px;
 				left: 10px;
-				background: rgba(0, 0, 0, 0.8);
+				background: rgba(0, 0, 0, 0.85);
 				color: white;
 				padding: 15px;
 				border-radius: 8px;
 				z-index: 999;
 				font-size: 12px;
-				max-width: 300px;
+				max-width: 320px;
 			}
 
 			#info h3 {
 				margin: 0 0 10px 0;
 				font-size: 14px;
+				color: #4caf50;
+			}
+
+			.status-line {
+				margin: 5px 0;
+				padding: 3px 0;
 			}
 
 			.status {
 				color: #ffc107;
 			}
 
-			.found {
+			.success {
 				color: #4caf50;
 			}
 
-			.loading {
-				color: #2196f3;
+			.error {
+				color: #f44336;
 			}
 
 			#instructions {
@@ -52,90 +57,170 @@
 				transform: translateX(-50%);
 				background: rgba(0, 0, 0, 0.8);
 				color: white;
-				padding: 12px 20px;
+				padding: 12px 24px;
 				border-radius: 20px;
 				z-index: 999;
-				font-size: 12px;
+				font-size: 13px;
+				text-align: center;
+			}
+
+			.btn {
+				background: #2196f3;
+				color: white;
+				border: none;
+				padding: 8px 15px;
+				border-radius: 5px;
+				cursor: pointer;
+				font-size: 11px;
+				margin-top: 8px;
 			}
 		</style>
 	</head>
 	<body>
 		<div id="info">
-			<h3>AR Card with 3D Model</h3>
-			<div>Status: <span id="status" class="status">Starting...</span></div>
-			<div>Model: <span id="modelStatus" class="loading">Loading...</span></div>
-			<div style="margin-top: 8px; font-size: 10px; opacity: 0.8">
-				Point camera at Hiro marker
+			<h3>🎯 AR Business Card</h3>
+			<div class="status-line">
+				Camera: <span id="cameraStatus" class="status">Starting...</span>
 			</div>
+			<div class="status-line">
+				Marker: <span id="markerType" class="status">Custom Pattern</span>
+			</div>
+			<div class="status-line">
+				Model: <span id="modelStatus" class="status">Loading...</span>
+			</div>
+			<div class="status-line">
+				Detection: <span id="detectionStatus" class="status">Waiting...</span>
+			</div>
+			<button class="btn" onclick="location.reload()">🔄 Reload</button>
 		</div>
 
-		<div id="instructions">📷 Point at Hiro marker | 🔄 Rotating 3D model</div>
+		<div id="instructions">📱 Point camera at your custom marker</div>
 
 		<a-scene
 			embedded
-			arjs="sourceType: webcam; debugUIEnabled: false;"
+			arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono; trackingMethod: best;"
 			vr-mode-ui="enabled: false"
-			renderer="colorManagement: true; physicallyCorrectLights: true;"
+			renderer="colorManagement: true; physicallyCorrectLights: true; logarithmicDepthBuffer: true;"
+			loading-screen="enabled: false"
 		>
-			<!-- Asset Management -->
 			<a-assets>
 				<!-- 
-            REPLACE THIS URL WITH YOUR OWN MODEL
-            Supported formats: .glb, .gltf
-            Free models for testing: 
-            - https://sketchfab.com (download as GLB)
-            - https://poly.pizza (free 3D models)
+            ============================================
+            IMPORTANT: UPDATE THESE PATHS!
+            ============================================
+            
+            Option 1: Files in same repository
+            Use relative paths:
+            
+				<a-asset-item id="customPattern" src="./markers/pattern-logo.patt">
+				</a-asset-item>
+
+				<a-asset-item id="businessModel" src="./models/business-model.glb">
+				</a-asset-item>
+
+				
+            Option 2: Files in GitHub (absolute URL)
+            Replace 'username' and 'repo-name':
+            
+            <a-asset-item 
+                id="customPattern" 
+                src="https://abusaeed-shuvo.github.io/arcard/markers/pattern-logo.patt">
+            </a-asset-item>
+            
+            <a-asset-item 
+                id="businessModel" 
+                src="https://abusaeed-shuvo.github.io/arcard/models/business-model.glb">
+            </a-asset-item>
             -->
+
+				<!-- 				
+            Option 3: Test with Hiro marker first
+            Comment out the custom pattern above and uncomment this:
+             -->
 				<a-asset-item
-					id="businessModel"
-					src="https://cdn.glitch.global/36cb8393-65c6-408d-a538-055ada20431b/scene.gltf"
+					id="hiroPattern"
+					src="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/data/patt.hiro"
 				>
 				</a-asset-item>
 			</a-assets>
 
-			<a-marker preset="hiro" id="marker">
-				<!-- Card Base Platform -->
+			<!-- 
+        ============================================
+        MARKER CONFIGURATION
+        ============================================
+        
+        For CUSTOM PATTERN marker (your logo):
+        -->
+			<a-marker
+				type="pattern"
+				url="./markers/pattern-logo.patt"
+				id="marker"
+				smoothCount="10"
+				smoothTolerance="0.01"
+				smoothThreshold="5"
+			>
+				<!-- 
+        Alternative: For HIRO marker (testing):
+        <a-marker preset="hiro" id="marker">
+        -->
+
+				<!-- 
+        Alternative: For BARCODE marker:
+        <a-marker type="barcode" value="7" id="marker">
+        -->
+
+				<!-- Card Platform -->
 				<a-box
 					position="0 0 0"
-					width="2"
-					height="0.05"
-					depth="1.3"
+					width="2.2"
+					height="0.06"
+					depth="1.4"
 					color="#ffffff"
 					shadow="receive: true"
 				>
 				</a-box>
 
-				<!-- 3D Model from Unreal (or any GLB/GLTF) -->
+				<!-- Blue Accent Strip -->
+				<a-box
+					position="0 0.065 -0.65"
+					width="2.2"
+					height="0.015"
+					depth="0.1"
+					color="#2196F3"
+				>
+				</a-box>
+
+				<!-- 3D Model (From Unreal or any GLB) -->
 				<a-entity
 					id="model3d"
 					gltf-model="#businessModel"
-					position="0 0.3 0"
-					scale="0.5 0.5 0.5"
+					position="0 0.35 0"
+					scale="0.4 0.4 0.4"
 					rotation="0 0 0"
-					animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear"
+					animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
 					shadow="cast: true"
 				>
 				</a-entity>
 
-				<!-- Fallback: Simple geometric logo if model doesn't load -->
+				<!-- Fallback Cube (if model fails to load) -->
 				<a-box
-					id="fallbackLogo"
-					position="0 0.4 0.6"
+					id="fallbackCube"
+					position="0 0.35 0"
 					rotation="0 45 0"
-					scale="0.2 0.2 0.2"
+					scale="0.25 0.25 0.25"
 					color="#2196F3"
-					animation="property: rotation; to: 0 405 0; loop: true; dur: 4000"
 					visible="false"
+					animation="property: rotation; to: 0 405 0; loop: true; dur: 4000"
 				>
 				</a-box>
 
-				<!-- Name Text -->
+				<!-- Name -->
 				<a-text
 					value="JOHN DOE"
 					align="center"
 					color="#000000"
 					width="3.5"
-					position="0 0.06 0.6"
+					position="0 0.07 0.62"
 				>
 				</a-text>
 
@@ -145,17 +230,18 @@
 					align="center"
 					color="#666666"
 					width="2.8"
-					position="0 0.06 0.45"
+					position="0 0.07 0.47"
 				>
 				</a-text>
 
-				<!-- Interactive Buttons -->
+				<!-- Email Button -->
 				<a-plane
-					position="-0.5 0.06 0.15"
-					width="0.7"
-					height="0.15"
+					position="-0.5 0.07 0.17"
+					width="0.75"
+					height="0.16"
 					color="#4CAF50"
 					id="emailBtn"
+					class="clickable"
 				>
 					<a-text
 						value="EMAIL"
@@ -167,15 +253,17 @@
 					</a-text>
 				</a-plane>
 
+				<!-- Website Button -->
 				<a-plane
-					position="0.5 0.06 0.15"
-					width="0.7"
-					height="0.15"
+					position="0.5 0.07 0.17"
+					width="0.75"
+					height="0.16"
 					color="#2196F3"
 					id="webBtn"
+					class="clickable"
 				>
 					<a-text
-						value="PORTFOLIO"
+						value="WEBSITE"
 						align="center"
 						color="#ffffff"
 						width="2.2"
@@ -190,7 +278,7 @@
 					align="center"
 					color="#333333"
 					width="2.5"
-					position="0 0.06 -0.1"
+					position="0 0.07 -0.08"
 				>
 				</a-text>
 
@@ -199,78 +287,104 @@
 					align="center"
 					color="#333333"
 					width="2"
-					position="0 0.06 -0.28"
+					position="0 0.07 -0.26"
 				>
 				</a-text>
 
-				<!-- Lighting for the 3D model -->
-				<a-light type="ambient" intensity="0.5"> </a-light>
+				<!-- Floating Particles -->
+				<a-sphere
+					position="0.9 0.5 0"
+					radius="0.05"
+					color="#FF5722"
+					animation="property: position; to: 0.9 0.75 0; dir: alternate; loop: true; dur: 2000; easing: easeInOutSine"
+				>
+				</a-sphere>
+				<a-sphere
+					position="-0.9 0.5 0"
+					radius="0.05"
+					color="#FFC107"
+					animation="property: position; to: -0.9 0.75 0; dir: alternate; loop: true; dur: 2300; easing: easeInOutSine"
+				>
+				</a-sphere>
+
+				<!-- Lighting -->
+				<a-light type="ambient" intensity="0.6"></a-light>
 				<a-light
 					type="directional"
-					position="1 1 1"
-					intensity="0.8"
+					position="2 3 1"
+					intensity="0.7"
 					castShadow="true"
-				>
-				</a-light>
-				<a-light type="point" position="0 2 0" intensity="0.5"> </a-light>
+				></a-light>
+				<a-light type="point" position="0 2 0" intensity="0.4"></a-light>
 			</a-marker>
 
 			<a-entity camera></a-entity>
 		</a-scene>
 
 		<script>
-			const statusEl = document.getElementById("status");
-			const modelStatusEl = document.getElementById("modelStatus");
+			// Status elements
+			const cameraStatus = document.getElementById("cameraStatus");
+			const markerType = document.getElementById("markerType");
+			const modelStatus = document.getElementById("modelStatus");
+			const detectionStatus = document.getElementById("detectionStatus");
 
+			// Wait for page load
 			window.addEventListener("load", () => {
 				const scene = document.querySelector("a-scene");
 				const marker = document.querySelector("#marker");
 				const model = document.querySelector("#model3d");
-				const fallback = document.querySelector("#fallbackLogo");
+				const fallback = document.querySelector("#fallbackCube");
 
-				// Scene ready
+				console.log("AR Scene initializing...");
+
+				// Camera status
+				navigator.mediaDevices
+					.getUserMedia({ video: { facingMode: "environment" } })
+					.then((stream) => {
+						cameraStatus.textContent = "Active ✓";
+						cameraStatus.className = "success";
+						stream.getTracks().forEach((track) => track.stop());
+					})
+					.catch((err) => {
+						cameraStatus.textContent = "Failed ✗";
+						cameraStatus.className = "error";
+						console.error("Camera error:", err);
+					});
+
+				// Scene loaded
 				scene.addEventListener("loaded", () => {
 					console.log("AR Scene loaded");
-					statusEl.textContent = "Ready!";
-					statusEl.className = "found";
 				});
 
-				// Model loading events
+				// Model loading
 				if (model) {
 					model.addEventListener("model-loaded", () => {
-						console.log("3D Model loaded successfully!");
-						modelStatusEl.textContent = "Loaded ✓";
-						modelStatusEl.className = "found";
-
-						// Hide fallback
-						if (fallback) {
-							fallback.setAttribute("visible", "false");
-						}
+						console.log("✅ 3D Model loaded successfully");
+						modelStatus.textContent = "Loaded ✓";
+						modelStatus.className = "success";
+						fallback.setAttribute("visible", "false");
 					});
 
 					model.addEventListener("model-error", (evt) => {
-						console.error("Model loading error:", evt);
-						modelStatusEl.textContent = "Failed ✗ (using fallback)";
-						modelStatusEl.className = "status";
-
-						// Show fallback geometric shape
-						if (fallback) {
-							fallback.setAttribute("visible", "true");
-						}
+						console.error("❌ Model loading failed:", evt.detail);
+						modelStatus.textContent = "Failed (using fallback)";
+						modelStatus.className = "error";
+						fallback.setAttribute("visible", "true");
 					});
 				}
 
 				// Marker detection
 				if (marker) {
 					marker.addEventListener("markerFound", () => {
-						console.log("Marker detected");
-						statusEl.textContent = "Marker found! 🎯";
-						statusEl.className = "found";
+						console.log("✅ Marker detected!");
+						detectionStatus.textContent = "Detected! 🎯";
+						detectionStatus.className = "success";
 					});
 
 					marker.addEventListener("markerLost", () => {
-						statusEl.textContent = "Looking for marker...";
-						statusEl.className = "status";
+						console.log("⚠️ Marker lost");
+						detectionStatus.textContent = "Searching...";
+						detectionStatus.className = "status";
 					});
 				}
 
@@ -281,19 +395,28 @@
 
 					if (emailBtn) {
 						emailBtn.addEventListener("click", () => {
-							console.log("Email clicked");
+							console.log("Email button clicked");
 							window.location.href =
-								"mailto:john.doe@example.com?subject=Hello%20from%20AR";
+								"mailto:john.doe@example.com?subject=Hello%20from%20AR%20Card";
 						});
 					}
 
 					if (webBtn) {
 						webBtn.addEventListener("click", () => {
-							console.log("Portfolio clicked");
+							console.log("Website button clicked");
 							window.open("https://yourportfolio.com", "_blank");
 						});
 					}
 				}, 2000);
+
+				// Log paths for debugging
+				console.log("Current page URL:", window.location.href);
+				console.log("Base URL:", window.location.origin);
+			});
+
+			// Error logging
+			window.addEventListener("error", (e) => {
+				console.error("Page error:", e.error);
 			});
 		</script>
 	</body>
