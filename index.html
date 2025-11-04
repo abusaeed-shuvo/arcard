@@ -1,18 +1,295 @@
 <!DOCTYPE html>
-<html>
-	<script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-	<!-- we import arjs version without NFT but with marker + location based support -->
-	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-	<body style="margin: 0px; overflow: hidden">
-		<a-scene embedded arjs>
-			<a-marker preset="hiro">
-				<a-entity
-					position="0 0 0"
-					scale="0.05 0.05 0.05"
-					gltf-model="https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
-				></a-entity>
-			</a-marker>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>AR Business Card</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
+		<style>
+			body {
+				margin: 0;
+				overflow: hidden;
+				font-family: Arial, sans-serif;
+			}
+
+			#info {
+				position: absolute;
+				top: 10px;
+				left: 10px;
+				background: rgba(0, 0, 0, 0.7);
+				color: white;
+				padding: 15px;
+				border-radius: 8px;
+				z-index: 1000;
+				max-width: 300px;
+			}
+
+			#instructions {
+				position: absolute;
+				bottom: 20px;
+				left: 50%;
+				transform: translateX(-50%);
+				background: rgba(0, 0, 0, 0.8);
+				color: white;
+				padding: 15px 25px;
+				border-radius: 25px;
+				z-index: 1000;
+				text-align: center;
+			}
+
+			.button {
+				background: #4caf50;
+				color: white;
+				border: none;
+				padding: 8px 15px;
+				margin: 5px;
+				border-radius: 5px;
+				cursor: pointer;
+				font-size: 14px;
+			}
+
+			.button:hover {
+				background: #45a049;
+			}
+
+			#markerInfo {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background: rgba(255, 255, 255, 0.95);
+				padding: 30px;
+				border-radius: 15px;
+				text-align: center;
+				z-index: 999;
+			}
+
+			#markerInfo a {
+				display: inline-block;
+				margin: 10px;
+				color: #2196f3;
+				text-decoration: none;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="info">
+			<h3>AR Business Card Demo</h3>
+			<p>Point your camera at the Hiro marker to see the 3D business card</p>
+			<small>Status: <span id="status">Initializing...</span></small>
+		</div>
+
+		<div id="instructions">📱 Point camera at Hiro marker</div>
+
+		<div id="markerInfo">
+			<h2>Need a Marker?</h2>
+			<p>Download and print the Hiro marker:</p>
+			<a
+				href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png"
+				target="_blank"
+				>Download Hiro Marker</a
+			>
+			<p><small>Or display it on another screen</small></p>
+		</div>
+
+		<a-scene
+			embedded
+			arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
+			vr-mode-ui="enabled: false"
+		>
+			<!-- Camera -->
 			<a-entity camera></a-entity>
+
+			<!-- Marker -->
+			<a-marker preset="hiro" id="marker">
+				<!-- Business Card Base -->
+				<a-box
+					position="0 0 0"
+					rotation="0 0 0"
+					width="2"
+					height="0.1"
+					depth="1.2"
+					color="#ffffff"
+					shadow="cast: true"
+					class="clickable"
+					id="card"
+				>
+				</a-box>
+
+				<!-- Company Logo (Cube) -->
+				<a-box
+					position="0 0.3 0"
+					rotation="0 45 0"
+					width="0.3"
+					height="0.3"
+					depth="0.3"
+					color="#2196F3"
+					animation="property: rotation; to: 0 405 0; loop: true; dur: 4000; easing: linear"
+					class="clickable"
+				>
+				</a-box>
+
+				<!-- Name Text -->
+				<a-text
+					value="JOHN DOE"
+					align="center"
+					color="#000000"
+					width="3"
+					position="0 0.08 0.61"
+				>
+				</a-text>
+
+				<!-- Title Text -->
+				<a-text
+					value="Creative Developer"
+					align="center"
+					color="#666666"
+					width="2.5"
+					position="0 0.08 0.45"
+				>
+				</a-text>
+
+				<!-- Contact Button (Left) -->
+				<a-box
+					position="-0.5 0.08 0.2"
+					width="0.6"
+					height="0.15"
+					depth="0.05"
+					color="#4CAF50"
+					class="clickable"
+					id="emailBtn"
+				>
+					<a-text
+						value="EMAIL"
+						align="center"
+						color="#ffffff"
+						width="2"
+						position="0 0 0.03"
+					>
+					</a-text>
+				</a-box>
+
+				<!-- Website Button (Right) -->
+				<a-box
+					position="0.5 0.08 0.2"
+					width="0.6"
+					height="0.15"
+					depth="0.05"
+					color="#2196F3"
+					class="clickable"
+					id="websiteBtn"
+				>
+					<a-text
+						value="WEBSITE"
+						align="center"
+						color="#ffffff"
+						width="1.8"
+						position="0 0 0.03"
+					>
+					</a-text>
+				</a-box>
+
+				<!-- Phone Info -->
+				<a-text
+					value="📱 +1 234 567 890"
+					align="center"
+					color="#333333"
+					width="2"
+					position="0 0.08 -0.1"
+				>
+				</a-text>
+
+				<!-- Floating particles effect -->
+				<a-sphere
+					position="0.8 0.5 0"
+					radius="0.05"
+					color="#FF5722"
+					animation="property: position; to: 0.8 0.8 0; dir: alternate; loop: true; dur: 2000; easing: easeInOutSine"
+				>
+				</a-sphere>
+				<a-sphere
+					position="-0.8 0.5 0"
+					radius="0.05"
+					color="#FFC107"
+					animation="property: position; to: -0.8 0.8 0; dir: alternate; loop: true; dur: 2500; easing: easeInOutSine"
+				>
+				</a-sphere>
+			</a-marker>
 		</a-scene>
+
+		<script>
+			// Status tracking
+			const statusEl = document.getElementById("status");
+			const markerEl = document.getElementById("marker");
+			const markerInfoEl = document.getElementById("markerInfo");
+
+			// Hide marker info after 5 seconds
+			setTimeout(() => {
+				markerInfoEl.style.display = "none";
+			}, 5000);
+
+			// Marker found/lost events
+			markerEl.addEventListener("markerFound", () => {
+				statusEl.textContent = "Marker detected! 🎯";
+				statusEl.style.color = "#4CAF50";
+			});
+
+			markerEl.addEventListener("markerLost", () => {
+				statusEl.textContent = "Searching for marker...";
+				statusEl.style.color = "#FFC107";
+			});
+
+			// Wait for scene to load
+			document.querySelector("a-scene").addEventListener("loaded", () => {
+				statusEl.textContent = "Ready! Point at marker";
+
+				// Add click interactions
+				const emailBtn = document.getElementById("emailBtn");
+				const websiteBtn = document.getElementById("websiteBtn");
+				const card = document.getElementById("card");
+
+				// Email button click
+				emailBtn.addEventListener("click", () => {
+					alert("Opening email: john.doe@example.com");
+					window.location.href = "mailto:john.doe@example.com";
+				});
+
+				// Website button click
+				websiteBtn.addEventListener("click", () => {
+					alert("Opening website...");
+					window.open("https://example.com", "_blank");
+				});
+
+				// Card click - show contact info
+				card.addEventListener("click", () => {
+					alert(
+						"John Doe\nCreative Developer\n📧 john.doe@example.com\n📱 +1 234 567 890\n🌐 www.example.com"
+					);
+				});
+
+				// Add hover effects (on mobile this works on touch)
+				[emailBtn, websiteBtn].forEach((btn) => {
+					btn.addEventListener("mouseenter", () => {
+						btn.setAttribute("scale", "1.1 1.1 1.1");
+					});
+					btn.addEventListener("mouseleave", () => {
+						btn.setAttribute("scale", "1 1 1");
+					});
+				});
+			});
+
+			// Prevent default touch behavior
+			document.addEventListener(
+				"touchmove",
+				(e) => {
+					if (e.target.classList.contains("clickable")) {
+						e.preventDefault();
+					}
+				},
+				{ passive: false }
+			);
+		</script>
 	</body>
 </html>
