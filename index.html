@@ -121,9 +121,9 @@
 						src="#cardPNG"
 						width="0.6"
 						height="0.6"
-						position="-0.1 0 0"
+						position="-0.2 0 0"
 					></a-plane>
-					<a-entity position="0.1 0 0">
+					<a-entity position="0.2 0 0">
 						<a-text
 							value="John Doe"
 							color="#fff"
@@ -156,68 +156,71 @@
 		</a-scene>
 
 		<script>
-				const videoEl = document.getElementById("introVideo");
-				// Get the container
-				const socialContainer = document.getElementById("socialContainer");
+			const videoEl = document.getElementById("introVideo");
+			// Get the container
+			const socialContainer = document.getElementById("socialContainer");
 
-				// MindAR target entity
-				const target = document.querySelector("[mindar-image-target]");
+			// MindAR target entity
+			const target = document.querySelector("[mindar-image-target]");
 
-				// Show social icons when target is found
-				<!-- target.addEventListener("targetFound", () => {
-					socialContainer.style.display = "flex";
+			// Show social icons when target is found
+			target.addEventListener("targetFound", () => {
+				socialContainer.style.display = "flex";
+			});
+
+			target.addEventListener("targetLost", () => {
+				socialContainer.style.display = "none";
+			});
+
+			// Autoplay muted when AR target is found
+			document
+				.querySelector("[mindar-image-target]")
+				.addEventListener("targetFound", () => {
+					videoEl.play();
 				});
 
-				target.addEventListener("targetLost", () => {
-					socialContainer.style.display = "none";
-				}); -->
-
-				// Autoplay muted when AR target is found
-				document
-					.querySelector("[mindar-image-target]")
-					.addEventListener("targetFound", () => {
-						videoEl.play();
-					});
-
-				// Overlay icon click events
-			  // Facebook profile/page
+			// Overlay icon click events
+			// Facebook profile/page
 			document.getElementById("facebookIcon").addEventListener("click", () => {
-			  window.open("https://www.facebook.com/yourusername", "_blank");
+				window.open("https://www.facebook.com/yourusername", "_blank");
 			});
 
 			// LinkedIn profile
 			document.getElementById("linkedinIcon").addEventListener("click", () => {
-			  window.open("https://www.linkedin.com/in/yourusername", "_blank");
+				window.open("https://www.linkedin.com/in/yourusername", "_blank");
 			});
 
 			// WhatsApp chat (replace number with country code)
 			document.getElementById("whatsappIcon").addEventListener("click", () => {
-			  window.open("https://wa.me/8801234567890", "_blank"); // Bangladesh number example
+				window.open("https://wa.me/8801234567890", "_blank"); // Bangladesh number example
 			});
 
 			// Location (Google Maps)
 			document.getElementById("locationIcon").addEventListener("click", () => {
-			  window.open("https://www.google.com/maps?q=123+Main+Street,+City", "_blank");
+				window.open(
+					"https://www.google.com/maps?q=123+Main+Street,+City",
+					"_blank"
+				);
 			});
 
 			// Phone call
 			document.getElementById("phoneIcon").addEventListener("click", () => {
-			  window.location.href = "tel:+8801234567890"; // your phone number
+				window.location.href = "tel:+8801234567890"; // your phone number
 			});
 
 			// Email
 			document.getElementById("mailIcon").addEventListener("click", () => {
-			  window.location.href = "mailto:youremail@example.com";
+				window.location.href = "mailto:youremail@example.com";
 			});
 
 			// Website
 			document.getElementById("websiteIcon").addEventListener("click", () => {
-			  window.open("https://www.yourwebsite.com", "_blank");
+				window.open("https://www.yourwebsite.com", "_blank");
 			});
 
 			// Contact card (vCard download or custom action)
 			document.getElementById("contactIcon").addEventListener("click", () => {
-			  window.open("./your-contact.vcf", "_blank"); // vCard file
+				window.open("./your-contact.vcf", "_blank"); // vCard file
 			});
 		</script>
 	</body>
