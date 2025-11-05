@@ -10,17 +10,20 @@
 			}
 			#socialContainer {
 				position: absolute;
-				bottom: 20px; /* distance from bottom */
-				left: 20px; /* distance from left */
+				left: 50%;
+				bottom: 25%;
+				transform: translateX(-50%);
 				display: flex;
-				gap: 10px; /* spacing between icons */
-				padding: 10px;
-				border-radius: 15px; /* rounded corners */
+				gap: 10px;
+				padding: 10px 15px;
+				border-radius: 15px;
 				z-index: 10;
-				display: none; /* initially hidden */
-
-				/* Default fallback color */
+				display: none;
+				align-items: center;
+				justify-content: center;
 				background-color: rgba(0, 0, 0, 0.4);
+				backdrop-filter: blur(6px);
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 			}
 
 			/* Dark mode */
@@ -99,7 +102,7 @@
 			<a-assets>
 				<a-asset-item
 					id="avatarModel"
-					src="https://abusaeed-shuvo.github.io/arcard/models/business-model.glb"
+					src="https://abusaeed-shuvo.github.io/arcard/models/model.glb"
 				></a-asset-item>
 				<a-asset-item
 					id="cutFish"
@@ -129,7 +132,7 @@
 			<a-entity mindar-image-target="targetIndex: 0">
 				<!-- 3D Model -->
 				<a-gltf-model
-					src="#bottleModel"
+					src="#avatarModel"
 					rotation="0 0 0"
 					position="0 0 0"
 					scale="0.5 0.5 0.5"
