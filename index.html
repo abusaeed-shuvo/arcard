@@ -19,23 +19,21 @@
 				type="pattern"
 				url="https://abusaeed-shuvo.github.io/arcard/markers/pattern-logo.patt"
 			>
-				<a-entity id="card" position="0 0 0" gesture-handler>
-					<a-entity
-						id="model"
-						position="0 0 0"
-						scale="0.8 0.8 0.8"
-						gltf-model="https://abusaeed-shuvo.github.io/arcard/models/business-model.glb"
-						rotation="270 0 0"
-						shadow="cast: true"
-					>
-					</a-entity>
+				<a-entity
+					id="model"
+					position="0 0 0"
+					scale="0.8 0.8 0.8"
+					gltf-model="https://abusaeed-shuvo.github.io/arcard/models/business-model.glb"
+					gesture-rotate
+				>
 				</a-entity>
+
 				<a-entity id="socialIcons" position="0 1 0">
 					<a-plane
 						id="linkGithub"
 						class="clickable"
 						position="-0.5 0 0"
-						rotation="-90 0 0"
+						look-at="[camera]"
 						width="0.3"
 						height="0.3"
 						material="shader: flat; src: https://cdn-icons-png.flaticon.com/512/25/25231.png"
@@ -45,13 +43,14 @@
 						id="linkLinkedin"
 						class="clickable"
 						position="0.5 0 0"
-						rotation="-90 0 0"
+						look-at="[camera]"
 						width="0.3"
 						height="0.3"
 						material="shader: flat; src: https://cdn-icons-png.flaticon.com/512/174/174857.png"
 					></a-plane>
 				</a-entity>
 			</a-marker>
+
 			<a-entity camera look-controls>
 				<a-entity
 					cursor="fuse: false; rayOrigin:touch"
@@ -60,39 +59,32 @@
 			</a-entity>
 		</a-scene>
 		<script>
-			AFRAME.registerComponent("gesture-handler", {
+			// Rotate gesture component for the model only
+			AFRAME.registerComponent("gesture-rotate", {
 				init: function () {
 					this.el.setAttribute("gesture-detector", "");
-					let scale = 1;
 					let rotationY = 0;
-					let position = this.el.getAttribute("position");
-
-					this.el.addEventListener("pinch", (event) => {
-						scale = Math.min(5, Math.max(0.1, scale * event.detail.scale));
-						this.el.setAttribute("scale", `${scale} ${scale} ${scale}`);
-					});
 
 					this.el.addEventListener("rotate", (event) => {
 						rotationY += event.detail.angleChange;
 						this.el.setAttribute("rotation", `0 ${rotationY} 0`);
 					});
 
-					this.el.addEventListener("drag", (event) => {
-						const sensitivity = 0.005;
-						position.x += event.detail.delta.x * sensitivity;
-						position.y -= event.detail.delta.y * sensitivity;
-						this.el.setAttribute(
-							"position",
-							`${position.x} ${position.y} ${position.z}`
-						);
+					// Optional: pinch to scale
+					let scale = 0.8; // initial scale
+					this.el.addEventListener("pinch", (event) => {
+						scale = Math.min(5, Math.max(0.1, scale * event.detail.scale));
+						this.el.setAttribute("scale", `${scale} ${scale} ${scale}`);
 					});
 				},
 			});
-			document.getElementById("githubIcon").addEventListener("click", () => {
+
+			// Clickable icons
+			document.getElementById("linkGithub").addEventListener("click", () => {
 				window.open("https://github.com/abusaeed-shuvo", "_blank");
 			});
 
-			document.getElementById("linkedinIcon").addEventListener("click", () => {
+			document.getElementById("linkLinkedin").addEventListener("click", () => {
 				window.open("https://linkedin.com/in/abusaeed-shuvo", "_blank");
 			});
 		</script>
