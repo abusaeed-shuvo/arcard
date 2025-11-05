@@ -21,7 +21,7 @@
 			>
 				<a-entity
 					id="model"
-					position="0 0.5 0"
+					position="0 0 0"
 					scale="0.8 0.8 0.8"
 					gltf-model="https://abusaeed-shuvo.github.io/arcard/models/business-model.glb"
 					rotation="270 0 0"
@@ -29,12 +29,26 @@
 				>
 				</a-entity>
 				<a-entity
-					position="0 1.5 0"
+					id="linkGithub"
+					position="3 0 0"
 					rotation="270 0 0"
-					text="value: Business Card; color: #000000; align: center; width: 2"
+					text="value: Github; color: #fafafa; align: center; width: 2"
+					class="clickable"
 				></a-entity>
 			</a-marker>
-			<a-entity camera></a-entity>
+			<a-entity camera>
+				<a-entity
+					cursor="fuse: false; rayOrigin:mouse"
+					raycaster="objects: .clickable"
+				></a-entity>
+			</a-entity>
 		</a-scene>
+		<script>
+			const linkGithub = document.getElementById("#linkGithub");
+
+			linkGithub.addEventListener("click", () => {
+				window.open("https://github.com/abusaeed-shuvo", "_blank");
+			});
+		</script>
 	</body>
 </html>
