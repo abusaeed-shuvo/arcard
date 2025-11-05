@@ -17,7 +17,7 @@
 			arjs="sourceType: webcam; debugUIEnabled: false;"
 			vr-mode-ui="enabled: false"
 			raycaster="objects: .clickable"
-			cursor="rayOrigin: mouse; fuse: false"
+			cursor="rayOrigin: mouse"
 		>
 			<!-- Camera -->
 			<a-entity id="camera" camera></a-entity>
@@ -38,24 +38,26 @@
 				></a-entity>
 
 				<!-- Social Icons -->
-				<a-entity id="socialIcons" position="0 1 0">
-					<a-image
-						id="githubIcon"
-						class="clickable"
-						src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+				<a-entity id="socialIcons" position="0 -1.5 0">
+					<a-link
+						href="https://github.com/abusaeed-shuvo"
+						title="GitHub"
+						image="https://cdn-icons-png.flaticon.com/512/25/25231.png"
 						position="-0.6 0 0"
-						scale="0.4 0.4 0.4"
-						face-camera
-					></a-image>
-
-					<a-image
-						id="linkedinIcon"
+						scale="0.5 0.5 0.5"
 						class="clickable"
-						src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
-						position="0.6 0 0"
-						scale="0.4 0.4 0.4"
 						face-camera
-					></a-image>
+					></a-link>
+
+					<a-link
+						href="https://linkedin.com/in/abusaeed-shuvo"
+						title="LinkedIn"
+						image="https://cdn-icons-png.flaticon.com/512/174/174857.png"
+						position="0.6 0 0"
+						scale="0.5 0.5 0.5"
+						class="clickable"
+						face-camera
+					></a-link>
 				</a-entity>
 			</a-marker>
 		</a-scene>
@@ -70,15 +72,6 @@
 					cam.object3D.getWorldPosition(camPos);
 					this.el.object3D.lookAt(camPos);
 				},
-			});
-
-			// Click handler using AR.js event system (works across desktop & mobile)
-			document.querySelector("#githubIcon").addEventListener("click", () => {
-				window.location.href = "https://github.com/abusaeed-shuvo";
-			});
-
-			document.querySelector("#linkedinIcon").addEventListener("click", () => {
-				window.location.href = "https://linkedin.com/in/abusaeed-shuvo";
 			});
 		</script>
 	</body>
