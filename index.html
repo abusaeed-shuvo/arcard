@@ -30,12 +30,27 @@
 					>
 					</a-entity>
 				</a-entity>
-				<a-entity
-					id="linkGithub"
-					position="0 1.2 0"
-					text="value: GitHub; color: #fafafa; align: center; width: 2"
-					class="clickable"
-				></a-entity>
+				<a-entity id="socialIcons" position="0 1 0">
+					<a-plane
+						id="linkGithub"
+						class="clickable"
+						position="-0.5 0 0"
+						rotation="-90 0 0"
+						width="0.3"
+						height="0.3"
+						material="shader: flat; src: https://cdn-icons-png.flaticon.com/512/25/25231.png"
+					>
+					</a-plane>
+					<a-plane
+						id="linkLinkedin"
+						class="clickable"
+						position="0.5 0 0"
+						rotation="-90 0 0"
+						width="0.3"
+						height="0.3"
+						material="shader: flat; src: https://cdn-icons-png.flaticon.com/512/174/174857.png"
+					></a-plane>
+				</a-entity>
 			</a-marker>
 			<a-entity camera look-controls>
 				<a-entity
@@ -73,10 +88,12 @@
 					});
 				},
 			});
-			const linkGithub = document.getElementById("linkGithub");
-
-			linkGithub.addEventListener("click", () => {
+			document.getElementById("githubIcon").addEventListener("click", () => {
 				window.open("https://github.com/abusaeed-shuvo", "_blank");
+			});
+
+			document.getElementById("linkedinIcon").addEventListener("click", () => {
+				window.open("https://linkedin.com/in/abusaeed-shuvo", "_blank");
 			});
 		</script>
 	</body>
