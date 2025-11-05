@@ -2,7 +2,6 @@
 <html>
 	<script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-	<script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-gesture-component@master/dist/aframe-gesture-component.min.js"></script>
 
 	<body style="margin: 0px; overflow: hidden">
 		<a-scene embedded arjs>
@@ -11,31 +10,24 @@
 				url="https://abusaeed-shuvo.github.io/arcard/markers/pattern-logo.patt"
 			>
 				<a-entity
-					position="0 0.5 0"
+					position="0 0 0"
 					scale="1 1 1"
-					gltf-model="https://abusaeed-shuvo.github.io/arcard/models/model.glb"
-				></a-entity>
+					gltf-model="https://abusaeed-shuvo.github.io/arcard/models/business-model.glb"
+					rotation="0 0 0"
+					animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
+					shadow="cast: true"
+				>
+				</a-entity>
+				<a-text
+					value="JOHN DOE"
+					align="center"
+					color="#000000"
+					width="3.5"
+					position="0 0.07 0.62"
+				>
+				</a-text>
 			</a-marker>
 			<a-entity camera></a-entity>
 		</a-scene>
-		<script>
-			AFRAME.registerComponent("gesture-handler", {
-				init: function () {
-					this.el.setAttribute("gesture-detector", "");
-					let scale = 1;
-
-					this.el.addEventListener("pinch", (event) => {
-						scale = Math.min(5, Math.max(0.1, scale * event.detail.scale));
-						this.el.setAttribute("scale", `${scale} ${scale} ${scale}`);
-					});
-
-					let rotationY = 0;
-					this.el.addEventListener("rotate", (event) => {
-						rotationY += event.detail.angleChange;
-						this.el.setAttribute("rotation", `0 ${rotationY} 0`);
-					});
-				},
-			});
-		</script>
 	</body>
 </html>
