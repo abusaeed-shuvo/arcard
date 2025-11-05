@@ -91,22 +91,11 @@
 			device-orientation-permission-ui="enabled: false"
 		>
 			<a-assets>
-				<a-asset-item
-					id="avatarModel"
-					src="https://abusaeed-shuvo.github.io/arcard/models/model.glb"
-				></a-asset-item>
-				<a-asset-item
-					id="cutFish"
-					src="https://abusaeed-shuvo.github.io/arcard/models/cut-fish.glb"
-				></a-asset-item>
-				<a-asset-item
-					id="cubeModel"
-					src="https://abusaeed-shuvo.github.io/arcard/models/cube.glb"
-				></a-asset-item>
-				<a-asset-item
-					id="bottleModel"
-					src="https://abusaeed-shuvo.github.io/arcard/models/bottle.glb"
-				></a-asset-item>
+				<img
+					id="cardPNG"
+					src="https://abusaeed-shuvo.github.io/arcard/img/logo.png"
+				/>
+
 				<video
 					id="introVideo"
 					src="https://abusaeed-shuvo.github.io/arcard/videos/intro.mp4"
@@ -121,45 +110,23 @@
 
 			<!-- AR Target -->
 			<a-entity mindar-image-target="targetIndex: 0">
-				<!-- 3D Model -->
-				<a-gltf-model
-					src="#avatarModel"
+				<!-- CardPNG -->
+				<a-plane
+					src="#cardPNG"
+					position="0 0 0.01"
 					rotation="0 0 0"
-					position="0 0 0"
-					scale="0.5 0.5 0.5"
-				></a-gltf-model>
+					width="1.2"
+					height="0.7"
+				></a-plane>
 
 				<!-- Intro Video -->
 				<a-video
 					src="#introVideo"
-					position="0 0.8 0"
+					position="0 -0.8 0"
 					width="1.2"
 					height="0.7"
 					rotation="0 0 0"
 				></a-video>
-
-				<!-- Text Info -->
-				<a-text
-					value="John Doe"
-					position="0 1.6 0"
-					align="center"
-					color="#fff"
-					width="2"
-				></a-text>
-				<a-text
-					value="Business: AR Cards"
-					position="0 1.4 0"
-					align="center"
-					color="#fff"
-					width="2"
-				></a-text>
-				<a-text
-					value="Address: 123 Main Street, City"
-					position="0 1.2 0"
-					align="center"
-					color="#fff"
-					width="2"
-				></a-text>
 			</a-entity>
 		</a-scene>
 
