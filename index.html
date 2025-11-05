@@ -34,23 +34,27 @@
 				</a-entity>
 
 				<a-entity id="socialIcons" position="0 1 0">
-					<a-plane
-						id="linkGithub"
+					<a-link
+						href="https://github.com/abusaeed-shuvo"
+						title=""
 						class="clickable"
 						position="-0.5 0 0"
-						width="0.3"
-						height="0.3"
+						look-at="[camera]"
+						scale="0.3 0.3 0.3"
 						material="shader: flat; src: https://cdn-icons-png.flaticon.com/512/25/25231.png"
 					>
-					</a-plane>
-					<a-plane
-						id="linkLinkedin"
+					</a-link>
+
+					<a-link
+						href="https://linkedin.com/in/abusaeed-shuvo"
+						title=""
 						class="clickable"
 						position="0.5 0 0"
-						width="0.3"
-						height="0.3"
+						look-at="[camera]"
+						scale="0.3 0.3 0.3"
 						material="shader: flat; src: https://cdn-icons-png.flaticon.com/512/174/174857.png"
-					></a-plane>
+					>
+					</a-link>
 				</a-entity>
 			</a-marker>
 		</a-scene>
@@ -66,54 +70,9 @@
 				},
 			});
 
-			// Apply face-camera to all icons
 			document
-				.querySelectorAll("#linkGithub, #linkLinkedin")
+				.querySelectorAll("a-link")
 				.forEach((el) => el.setAttribute("face-camera", ""));
-
-			// Component for click/touch feedback
-			AFRAME.registerComponent("interactive-icon", {
-				init: function () {
-					const el = this.el;
-
-					el.addEventListener("mouseenter", () => {
-						el.object3D.scale.set(0.35, 0.35, 0.35); // Slightly bigger
-					});
-
-					el.addEventListener("mouseleave", () => {
-						el.object3D.scale.set(0.3, 0.3, 0.3); // Original size
-					});
-
-					el.addEventListener("click", () => {
-						const link = el.getAttribute("data-link");
-						if (link) window.open(link, "_blank");
-					});
-
-					// Mobile touch
-					el.addEventListener("touchstart", (e) => {
-						e.stopPropagation();
-						el.object3D.scale.set(0.35, 0.35, 0.35);
-						const link = el.getAttribute("data-link");
-						if (link) window.open(link, "_blank");
-					});
-
-					el.addEventListener("touchend", () => {
-						el.object3D.scale.set(0.3, 0.3, 0.3);
-					});
-				},
-			});
-
-			// Assign interactive-icon and data-link
-			const github = document.getElementById("linkGithub");
-			github.setAttribute("interactive-icon", "");
-			github.setAttribute("data-link", "https://github.com/abusaeed-shuvo");
-
-			const linkedin = document.getElementById("linkLinkedin");
-			linkedin.setAttribute("interactive-icon", "");
-			linkedin.setAttribute(
-				"data-link",
-				"https://linkedin.com/in/abusaeed-shuvo"
-			);
 		</script>
 	</body>
 </html>
