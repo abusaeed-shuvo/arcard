@@ -8,87 +8,78 @@
 				margin: 0;
 				overflow: hidden;
 			}
+
 			#socialContainer {
 				position: absolute;
-				left: 50%;
-				bottom: 25%;
-				transform: translateX(-50%);
+				left: 50%; /* center horizontally */
+				bottom: 25%; /* raise 25% from the bottom of the screen */
+				transform: translateX(-50%); /* perfectly center it */
 				display: flex;
-				gap: 10px;
+				flex-direction: column;
+				gap: 10px; /* spacing between icons */
 				padding: 10px 15px;
-				border-radius: 15px;
+				border-radius: 15px; /* rounded corners */
 				z-index: 10;
-				display: none;
+				/* initially hidden */
 				align-items: center;
 				justify-content: center;
+
+				/* Default fallback color */
 				background-color: rgba(0, 0, 0, 0.4);
-				backdrop-filter: blur(6px);
+				backdrop-filter: blur(6px); /* subtle glass effect */
 				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 			}
 
 			/* Dark mode */
 			@media (prefers-color-scheme: dark) {
 				#socialContainer {
-					background-color: rgba(
-						255,
-						255,
-						255,
-						0.5
-					); /* light tint on dark mode */
+					background-color: rgba(255, 255, 255, 0.25);
 				}
 			}
 
 			/* Light mode */
 			@media (prefers-color-scheme: light) {
 				#socialContainer {
-					background-color: rgba(0, 0, 0, 0.5); /* dark tint on light mode */
+					background-color: rgba(0, 0, 0, 0.35);
 				}
 			}
+			.row {
+				display: flex;
+				gap: 10px; /* spacing between icons */
+			}
 
-			/* Overlay icons */
+			/* Icons */
 			.social-icon {
 				width: 50px;
 				height: 50px;
 				cursor: pointer;
+				transition: transform 0.2s ease, opacity 0.2s ease;
 			}
-			#githubIcon {
-				left: 20px;
-			}
-			#linkedinIcon {
-				left: 90px;
-			}
-			#emailIcon {
-				left: 160px;
-			}
-			#unmuteIcon {
-				left: 230px;
+
+			.social-icon:hover {
+				transform: scale(1.15);
+				opacity: 0.9;
 			}
 		</style>
 	</head>
 
 	<body>
-		<!-- Overlay icons -->
 		<div id="socialContainer">
-			<img
-				id="githubIcon"
-				class="social-icon"
-				src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-			/>
-			<img
-				id="linkedinIcon"
-				class="social-icon"
-				src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
-			/>
-			<img
-				id="emailIcon"
-				class="social-icon"
-				src="https://cdn-icons-png.flaticon.com/512/732/732200.png"
-			/>
-			<img
-				id="unmuteIcon"
-				class="social-icon"
-				src="https://cdn-icons-png.flaticon.com/512/727/727240.png"
-			/>
+			<!-- First row -->
+			<div class="row">
+				<img id="facebookIcon" class="social-icon" src="./icons/facebook.png" />
+				<img id="linkedinIcon" class="social-icon" src="./icons/linkedin.png" />
+				<img id="whatsappIcon" class="social-icon" src="./icons/whatsapp.png" />
+				<img id="locationIcon" class="social-icon" src="./icons/location.png" />
+			</div>
+
+			<!-- Second row -->
+			<div class="row">
+				<img id="phoneIcon" class="social-icon" src="./icons/call.png" />
+				<img id="mailIcon" class="social-icon" src="./icons/mail.png" />
+				<img id="websiteIcon" class="social-icon" src="./icons/web.png" />
+				<img id="contactIcon" class="social-icon" src="./icons/contact.png" />
+			</div>
 		</div>
 		<a-scene
 			mindar-image="imageTargetSrc: https://abusaeed-shuvo.github.io/arcard/targets/targets.mind; 
@@ -173,46 +164,69 @@
 		</a-scene>
 
 		<script>
-			const videoEl = document.getElementById("introVideo");
-			// Get the container
-			const socialContainer = document.getElementById("socialContainer");
+				const videoEl = document.getElementById("introVideo");
+				// Get the container
+				const socialContainer = document.getElementById("socialContainer");
 
-			// MindAR target entity
-			const target = document.querySelector("[mindar-image-target]");
+				// MindAR target entity
+				const target = document.querySelector("[mindar-image-target]");
 
-			// Show social icons when target is found
-			target.addEventListener("targetFound", () => {
-				socialContainer.style.display = "flex";
-			});
-
-			// Hide social icons when target is lost
-			target.addEventListener("targetLost", () => {
-				socialContainer.style.display = "none";
-			});
-
-			// Autoplay muted when AR target is found
-			document
-				.querySelector("[mindar-image-target]")
-				.addEventListener("targetFound", () => {
-					videoEl.play();
+				// Show social icons when target is found
+				<!-- target.addEventListener("targetFound", () => {
+					socialContainer.style.display = "flex";
 				});
 
-			// Overlay icon click events
-			document.getElementById("githubIcon").addEventListener("click", () => {
-				window.open("https://github.com/abusaeed-shuvo", "_blank");
-			});
-			document.getElementById("linkedinIcon").addEventListener("click", () => {
-				window.open("https://linkedin.com/in/abusaeed-shuvo", "_blank");
-			});
-			document.getElementById("emailIcon").addEventListener("click", () => {
-				window.location.href = "mailto:yourname@example.com";
+				// Hide social icons when target is lost
+				target.addEventListener("targetLost", () => {
+					socialContainer.style.display = "none";
+				}); -->
+
+				// Autoplay muted when AR target is found
+				document
+					.querySelector("[mindar-image-target]")
+					.addEventListener("targetFound", () => {
+						videoEl.play();
+					});
+
+				// Overlay icon click events
+			  // Facebook profile/page
+			document.getElementById("facebookIcon").addEventListener("click", () => {
+			  window.open("https://www.facebook.com/yourusername", "_blank");
 			});
 
-			// Unmute button
-			document.getElementById("unmuteIcon").addEventListener("click", () => {
-				videoEl.muted = false;
-				videoEl.play();
-				alert("Video unmuted!");
+			// LinkedIn profile
+			document.getElementById("linkedinIcon").addEventListener("click", () => {
+			  window.open("https://www.linkedin.com/in/yourusername", "_blank");
+			});
+
+			// WhatsApp chat (replace number with country code)
+			document.getElementById("whatsappIcon").addEventListener("click", () => {
+			  window.open("https://wa.me/8801234567890", "_blank"); // Bangladesh number example
+			});
+
+			// Location (Google Maps)
+			document.getElementById("locationIcon").addEventListener("click", () => {
+			  window.open("https://www.google.com/maps?q=123+Main+Street,+City", "_blank");
+			});
+
+			// Phone call
+			document.getElementById("phoneIcon").addEventListener("click", () => {
+			  window.location.href = "tel:+8801234567890"; // your phone number
+			});
+
+			// Email
+			document.getElementById("mailIcon").addEventListener("click", () => {
+			  window.location.href = "mailto:youremail@example.com";
+			});
+
+			// Website
+			document.getElementById("websiteIcon").addEventListener("click", () => {
+			  window.open("https://www.yourwebsite.com", "_blank");
+			});
+
+			// Contact card (vCard download or custom action)
+			document.getElementById("contactIcon").addEventListener("click", () => {
+			  window.open("./your-contact.vcf", "_blank"); // vCard file
 			});
 		</script>
 	</body>
