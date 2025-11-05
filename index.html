@@ -112,13 +112,17 @@
 			<a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
 			<!-- AR Target -->
-			<a-entity mindar-image-target="targetIndex: 0">
+			<a-entity
+				mindar-image-target="targetIndex: 0"
+				animation__smoothpos="property: position; dur: 200; easing: easeOutQuad"
+				animation__smoothrot="property: rotation; dur: 200; easing: easeOutQuad"
+			>
 				<!-- CardPNG -->
 
 				<a-plane
 					src="#cardPNG"
 					width="1"
-					height="0.6"
+					height="0.5"
 					position="0 0.8 0.05"
 					rotation="0 0 0"
 					material="transparent: true"
@@ -129,9 +133,10 @@
 				<a-video
 					src="#introVideo"
 					position="0 -1 0"
-					width="1.2"
-					height="0.7"
+					width="1.765"
+					height="1"
 					rotation="0 0 0"
+					material="shader: flat;"
 					responsive-scale="base: 0.7"
 				></a-video>
 			</a-entity>
@@ -166,7 +171,7 @@
 			// Show/hide social icons with fade effect
 			target.addEventListener("targetFound", () => {
 				socialContainer.classList.add("show");
-				videoEl.play();
+				setTimeout(() => videoEl.play(), 200);
 			});
 			target.addEventListener("targetLost", () => {
 				socialContainer.classList.remove("show");
