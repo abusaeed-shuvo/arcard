@@ -9,6 +9,27 @@
 		/>
 		<script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 		<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+		<style>
+			body {
+				margin: 0;
+				overflow: hidden;
+			}
+			/* Fixed overlay icons */
+			.social-icon {
+				position: absolute;
+				width: 50px;
+				height: 50px;
+				bottom: 20px; /* adjust position */
+				cursor: pointer;
+				z-index: 10;
+			}
+			#githubIcon {
+				left: 20px;
+			}
+			#linkedinIcon {
+				left: 90px;
+			}
+		</style>
 	</head>
 
 	<body style="margin: 0; overflow: hidden">
@@ -35,27 +56,21 @@
 					rotation="-90 0 0"
 					gltf-model="https://abusaeed-shuvo.github.io/arcard/models/business-model.glb"
 				></a-entity>
-
-				<a-entity id="socialIcons" position="0 1 0">
-					<a-image
-						id="githubIcon"
-						class="clickable"
-						src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-						position="-0.6 0 0"
-						scale="0.4 0.4 0.4"
-						face-camera
-					></a-image>
-					<a-image
-						id="linkedinIcon"
-						class="clickable"
-						src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
-						position="0.6 0 0"
-						scale="0.4 0.4 0.4"
-						face-camera
-					></a-image>
-				</a-entity>
 			</a-marker>
 		</a-scene>
+
+		<img
+			id="githubIcon"
+			class="social-icon"
+			src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+			style="display: none"
+		/>
+		<img
+			id="linkedinIcon"
+			class="social-icon"
+			src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
+			style="display: none"
+		/>
 
 		<script>
 			// Make icons always face the camera
@@ -69,30 +84,30 @@
 				},
 			});
 			// Use cursor events for clicks/taps
-			const githubIcon = document.getElementById("githubIcon");
-			const linkedinIcon = document.getElementById("linkedinIcon");
+			const github = document.getElementById("githubIcon");
+			const linkedin = document.getElementById("linkedinIcon");
 
-			function openLink(url) {
-				const a = document.createElement("a");
-				a.href = url;
-				a.target = "_blank";
-				a.rel = "noopener noreferrer";
-				a.click();
-			}
-
-			githubIcon.addEventListener("mouseenter", () =>
-				openLink("https://github.com/abusaeed-shuvo")
+			// Open links when clicked
+			github.addEventListener("click", () =>
+				window.open("https://github.com/abusaeed-shuvo", "_blank")
 			);
-			linkedinIcon.addEventListener("mouseenter", () =>
-				openLink("https://linkedin.com/in/abusaeed-shuvo")
+			linkedin.addEventListener("click", () =>
+				window.open("https://linkedin.com/in/abusaeed-shuvo", "_blank")
 			);
 
-			githubIcon.addEventListener("touchstart", () =>
-				openLink("https://github.com/abusaeed-shuvo")
-			);
-			linkedinIcon.addEventListener("touchstart", () =>
-				openLink("https://linkedin.com/in/abusaeed-shuvo")
-			);
+			const marker = document.querySelector("a-marker");
+
+			// Show icons when marker is detected
+			marker.addEventListener("markerFound", () => {
+				github.style.display = "block";
+				linkedin.style.display = "block";
+			});
+
+			// Hide icons when marker is lost
+			marker.addEventListener("markerLost", () => {
+				github.style.display = "none";
+				linkedin.style.display = "none";
+			});
 		</script>
 	</body>
 </html>
