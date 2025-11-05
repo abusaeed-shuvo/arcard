@@ -10,62 +10,42 @@
 			}
 			#socialContainer {
 				position: absolute;
-				left: 50%; /* center horizontally */
-				bottom: 25%; /* raise 25% from the bottom of the screen */
-				transform: translateX(-50%); /* perfectly center it */
+				left: 50%;
+				bottom: 25%;
+				transform: translateX(-50%);
 				display: flex;
-				gap: 10px; /* spacing between icons */
+				gap: 10px;
 				padding: 10px 15px;
-				border-radius: 15px; /* rounded corners */
+				border-radius: 15px;
 				z-index: 10;
-				display: none; /* initially hidden */
+				display: none;
 				align-items: center;
 				justify-content: center;
-
-				/* Default fallback color */
 				background-color: rgba(0, 0, 0, 0.4);
-				backdrop-filter: blur(6px); /* subtle glass effect */
+				backdrop-filter: blur(6px);
 				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 			}
 
-			/* Dark mode */
 			@media (prefers-color-scheme: dark) {
 				#socialContainer {
 					background-color: rgba(255, 255, 255, 0.25);
 				}
 			}
-
-			/* Light mode */
 			@media (prefers-color-scheme: light) {
 				#socialContainer {
 					background-color: rgba(0, 0, 0, 0.35);
 				}
 			}
 
-			/* Icons */
 			.social-icon {
 				width: 50px;
 				height: 50px;
 				cursor: pointer;
 				transition: transform 0.2s ease, opacity 0.2s ease;
 			}
-
 			.social-icon:hover {
 				transform: scale(1.15);
 				opacity: 0.9;
-			}
-
-			#githubIcon {
-				left: 20px;
-			}
-			#linkedinIcon {
-				left: 90px;
-			}
-			#emailIcon {
-				left: 160px;
-			}
-			#unmuteIcon {
-				left: 230px;
 			}
 		</style>
 	</head>
@@ -95,28 +75,13 @@
 			/>
 		</div>
 		<a-scene
-			mindar-image="imageTargetSrc: https://abusaeed-shuvo.github.io/arcard/targets/target-logo.mind; 
-                     uiLoading: false; 
-                     uiScanning: false;"
+			mindar-image="imageTargetSrc: https://abusaeed-shuvo.github.io/arcard/targets/target-logo.mind; uiLoading: true; uiScanning: true;"
 			color-space="sRGB"
-			renderer="colorManagement: true, physicallyCorrectLights"
-			embedded
+			renderer="colorManagement: true; physicallyCorrectLights: true; alpha: true"
 			vr-mode-ui="enabled: false"
 			device-orientation-permission-ui="enabled: false"
 		>
 			<a-assets>
-				<a-asset-item
-					id="avatarModel"
-					src="https://abusaeed-shuvo.github.io/arcard/models/business-model.glb"
-				></a-asset-item>
-				<a-asset-item
-					id="cutFish"
-					src="https://abusaeed-shuvo.github.io/arcard/models/cut-fish.glb"
-				></a-asset-item>
-				<a-asset-item
-					id="cubeModel"
-					src="https://abusaeed-shuvo.github.io/arcard/models/cube.glb"
-				></a-asset-item>
 				<a-asset-item
 					id="bottleModel"
 					src="https://abusaeed-shuvo.github.io/arcard/models/bottle.glb"
@@ -130,10 +95,8 @@
 					crossorigin="anonymous"
 				></video>
 			</a-assets>
-
-			<!-- AR Target -->
+			<a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 			<a-entity mindar-image-target="targetIndex: 0">
-				<!-- 3D Model -->
 				<a-gltf-model
 					src="#bottleModel"
 					rotation="0 0 0"
@@ -141,7 +104,6 @@
 					scale="0.5 0.5 0.5"
 				></a-gltf-model>
 
-				<!-- Intro Video -->
 				<a-video
 					src="#introVideo"
 					position="0 0.8 0"
@@ -150,7 +112,6 @@
 					rotation="0 0 0"
 				></a-video>
 
-				<!-- Text Info -->
 				<a-text
 					value="John Doe"
 					position="0 1.6 0"
@@ -177,30 +138,18 @@
 
 		<script>
 			const videoEl = document.getElementById("introVideo");
-			// Get the container
 			const socialContainer = document.getElementById("socialContainer");
-
-			// MindAR target entity
 			const target = document.querySelector("[mindar-image-target]");
 
-			// Show social icons when target is found
 			target.addEventListener("targetFound", () => {
 				socialContainer.style.display = "flex";
+				videoEl.play();
 			});
 
-			// Hide social icons when target is lost
 			target.addEventListener("targetLost", () => {
 				socialContainer.style.display = "none";
 			});
 
-			// Autoplay muted when AR target is found
-			document
-				.querySelector("[mindar-image-target]")
-				.addEventListener("targetFound", () => {
-					videoEl.play();
-				});
-
-			// Overlay icon click events
 			document.getElementById("githubIcon").addEventListener("click", () => {
 				window.open("https://github.com/abusaeed-shuvo", "_blank");
 			});
@@ -210,8 +159,6 @@
 			document.getElementById("emailIcon").addEventListener("click", () => {
 				window.location.href = "mailto:yourname@example.com";
 			});
-
-			// Unmute button
 			document.getElementById("unmuteIcon").addEventListener("click", () => {
 				videoEl.muted = false;
 				videoEl.play();
