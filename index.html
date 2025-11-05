@@ -17,7 +17,7 @@
 			arjs="sourceType: webcam; debugUIEnabled: false;"
 			vr-mode-ui="enabled: false"
 			raycaster="objects: .clickable"
-			cursor="rayOrigin: touch"
+			cursor="rayOrigin: mouse; fuse: false"
 		>
 			<!-- Camera -->
 			<a-entity id="camera" camera></a-entity>
@@ -72,34 +72,13 @@
 				},
 			});
 
-			// Handle clicks or touches on icons
-			const github = document.getElementById("githubIcon");
-			const linkedin = document.getElementById("linkedinIcon");
-
-			function openLink(url) {
-				console.log("Opening link:", url);
-				window.open(url, "_blank", "noopener,noreferrer");
-			}
-
-			github.addEventListener("click", (e) => {
-				e.stopPropagation();
-				openLink("https://github.com/abusaeed-shuvo");
+			// Click handler using AR.js event system (works across desktop & mobile)
+			document.querySelector("#githubIcon").addEventListener("click", () => {
+				window.location.href = "https://github.com/abusaeed-shuvo";
 			});
 
-			linkedin.addEventListener("click", (e) => {
-				e.stopPropagation();
-				openLink("https://linkedin.com/in/abusaeed-shuvo");
-			});
-
-			// Add touch support for mobile
-			github.addEventListener("touchstart", (e) => {
-				e.stopPropagation();
-				openLink("https://github.com/abusaeed-shuvo");
-			});
-
-			linkedin.addEventListener("touchstart", (e) => {
-				e.stopPropagation();
-				openLink("https://linkedin.com/in/abusaeed-shuvo");
+			document.querySelector("#linkedinIcon").addEventListener("click", () => {
+				window.location.href = "https://linkedin.com/in/abusaeed-shuvo";
 			});
 		</script>
 	</body>
