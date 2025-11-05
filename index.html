@@ -117,11 +117,12 @@
 
 				<a-plane
 					src="#cardPNG"
-					width="0.6"
-					height="0.6"
+					width="0.9"
+					height="0.4"
 					position="0 0.8 0.05"
 					rotation="0 0 0"
 					material="transparent: true"
+					responsive-scale="base: 0.8"
 				></a-plane>
 
 				<!-- Intro Video -->
@@ -131,11 +132,33 @@
 					width="1.2"
 					height="0.7"
 					rotation="0 0 0"
+					responsive-scale="base: 0.8"
 				></a-video>
 			</a-entity>
 		</a-scene>
 
 		<script>
+			AFRAME.registerComponent("responsive-scale", {
+				schema: { base: { default: 1 } },
+				init() {
+					const el = this.el;
+					const mindarTarget = el.closest("[mindar-image-target]");
+					const baseScale = this.data.base;
+					const resize = () => {
+						const aspect = window.innerWidth / window.innerHeight;
+						// scale to keep proportions roughly screen-based
+						const scale =
+							baseScale * (aspect > 1 ? aspect / 1.5 : 1.5 / aspect);
+						el.object3D.scale.set(scale, scale, scale);
+					};
+					window.addEventListener("resize", resize);
+					resize();
+
+					// if you only want scaling when visible:
+					mindarTarget.addEventListener("targetFound", resize);
+				},
+			});
+
 			const videoEl = document.getElementById("introVideo");
 			const socialContainer = document.getElementById("socialContainer");
 			const target = document.querySelector("[mindar-image-target]");
