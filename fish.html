@@ -8,8 +8,12 @@
 	<body>
 		<a-scene
 			mindar-image="imageTargetSrc: https://abusaeed-shuvo.github.io/arcard/targets/targets.mind; 
-                     uiLoading: false; 
-                     uiScanning: false;"
+                uiLoading: false; 
+                filterMinCF: 0.0001;
+                filterBeta: 0.01;
+                warmupTolerance: 5;
+                missTolerance: 5;
+                uiScanning: false;"
 			color-space="sRGB"
 			renderer="colorManagement: true, physicallyCorrectLights"
 			vr-mode-ui="enabled: false"
@@ -29,9 +33,9 @@
 				<!-- 3D Model -->
 				<a-gltf-model
 					src="#cutFish"
-					rotation="0 -90 0"
-					position="0 0.1 0"
-					scale="1 1 1"
+					rotation="-90 0 0"
+					position="0 0 0.1"
+					scale="0.5 0.5 0.5"
 				></a-gltf-model>
 			</a-entity>
 		</a-scene>
