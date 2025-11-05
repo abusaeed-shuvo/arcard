@@ -3,15 +3,94 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+		<style>
+			body {
+				margin: 0;
+				overflow: hidden;
+			}
+			#socialContainer {
+				position: absolute;
+				bottom: 20px; /* distance from bottom */
+				left: 20px; /* distance from left */
+				display: flex;
+				gap: 10px; /* spacing between icons */
+				padding: 10px;
+				border-radius: 15px; /* rounded corners */
+				z-index: 10;
+				display: none; /* initially hidden */
+
+				/* Default fallback color */
+				background-color: rgba(0, 0, 0, 0.4);
+			}
+
+			/* Dark mode */
+			@media (prefers-color-scheme: dark) {
+				#socialContainer {
+					background-color: rgba(
+						255,
+						255,
+						255,
+						0.5
+					); /* light tint on dark mode */
+				}
+			}
+
+			/* Light mode */
+			@media (prefers-color-scheme: light) {
+				#socialContainer {
+					background-color: rgba(0, 0, 0, 0.5); /* dark tint on light mode */
+				}
+			}
+
+			/* Overlay icons */
+			.social-icon {
+				width: 50px;
+				height: 50px;
+				cursor: pointer;
+			}
+			#githubIcon {
+				left: 20px;
+			}
+			#linkedinIcon {
+				left: 90px;
+			}
+			#emailIcon {
+				left: 160px;
+			}
+			#unmuteIcon {
+				left: 230px;
+			}
+		</style>
 	</head>
 
 	<body>
+		<!-- Overlay icons -->
+		<div id="socialContainer">
+			<img
+				id="githubIcon"
+				class="social-icon"
+				src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+			/>
+			<img
+				id="linkedinIcon"
+				class="social-icon"
+				src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
+			/>
+			<img
+				id="emailIcon"
+				class="social-icon"
+				src="https://cdn-icons-png.flaticon.com/512/732/732200.png"
+			/>
+			<img
+				id="unmuteIcon"
+				class="social-icon"
+				src="https://cdn-icons-png.flaticon.com/512/727/727240.png"
+			/>
+		</div>
 		<a-scene
 			mindar-image="imageTargetSrc: https://abusaeed-shuvo.github.io/arcard/targets/targets.mind; 
-                uiLoading: false; 
-                uiScanning: false;
-    
-            "
+                     uiLoading: false; 
+                     uiScanning: false;"
 			color-space="sRGB"
 			renderer="colorManagement: true, physicallyCorrectLights"
 			vr-mode-ui="enabled: false"
@@ -19,9 +98,29 @@
 		>
 			<a-assets>
 				<a-asset-item
+					id="avatarModel"
+					src="https://abusaeed-shuvo.github.io/arcard/models/business-model.glb"
+				></a-asset-item>
+				<a-asset-item
 					id="cutFish"
 					src="https://abusaeed-shuvo.github.io/arcard/models/cut-fish.glb"
 				></a-asset-item>
+				<a-asset-item
+					id="cubeModel"
+					src="https://abusaeed-shuvo.github.io/arcard/models/cube.glb"
+				></a-asset-item>
+				<a-asset-item
+					id="bottleModel"
+					src="https://abusaeed-shuvo.github.io/arcard/models/bottle.glb"
+				></a-asset-item>
+				<video
+					id="introVideo"
+					src="https://abusaeed-shuvo.github.io/arcard/videos/intro.mp4"
+					loop
+					muted
+					playsinline
+					crossorigin="anonymous"
+				></video>
 			</a-assets>
 
 			<a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -30,12 +129,88 @@
 			<a-entity mindar-image-target="targetIndex: 0">
 				<!-- 3D Model -->
 				<a-gltf-model
-					src="#cutFish"
-					rotation="90 0 0"
-					position="0 0 0.01"
+					src="#bottleModel"
+					rotation="0 0 0"
+					position="-90 0 0"
 					scale="0.5 0.5 0.5"
 				></a-gltf-model>
+
+				<!-- Intro Video -->
+				<a-video
+					src="#introVideo"
+					position="0 0.8 0"
+					width="1.2"
+					height="0.7"
+					rotation="0 0 0"
+				></a-video>
+
+				<!-- Text Info -->
+				<a-text
+					value="John Doe"
+					position="0 1.6 0"
+					align="center"
+					color="#fff"
+					width="2"
+				></a-text>
+				<a-text
+					value="Business: AR Cards"
+					position="0 1.4 0"
+					align="center"
+					color="#fff"
+					width="2"
+				></a-text>
+				<a-text
+					value="Address: 123 Main Street, City"
+					position="0 1.2 0"
+					align="center"
+					color="#fff"
+					width="2"
+				></a-text>
 			</a-entity>
 		</a-scene>
+
+		<script>
+			const videoEl = document.getElementById("introVideo");
+			// Get the container
+			const socialContainer = document.getElementById("socialContainer");
+
+			// MindAR target entity
+			const target = document.querySelector("[mindar-image-target]");
+
+			// Show social icons when target is found
+			target.addEventListener("targetFound", () => {
+				socialContainer.style.display = "flex";
+			});
+
+			// Hide social icons when target is lost
+			target.addEventListener("targetLost", () => {
+				socialContainer.style.display = "none";
+			});
+
+			// Autoplay muted when AR target is found
+			document
+				.querySelector("[mindar-image-target]")
+				.addEventListener("targetFound", () => {
+					videoEl.play();
+				});
+
+			// Overlay icon click events
+			document.getElementById("githubIcon").addEventListener("click", () => {
+				window.open("https://github.com/abusaeed-shuvo", "_blank");
+			});
+			document.getElementById("linkedinIcon").addEventListener("click", () => {
+				window.open("https://linkedin.com/in/abusaeed-shuvo", "_blank");
+			});
+			document.getElementById("emailIcon").addEventListener("click", () => {
+				window.location.href = "mailto:yourname@example.com";
+			});
+
+			// Unmute button
+			document.getElementById("unmuteIcon").addEventListener("click", () => {
+				videoEl.muted = false;
+				videoEl.play();
+				alert("Video unmuted!");
+			});
+		</script>
 	</body>
 </html>
