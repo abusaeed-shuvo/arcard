@@ -11,29 +11,32 @@
 		<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 	</head>
 
-	<body style="margin: 0px; overflow: hidden">
+	<body style="margin: 0; overflow: hidden">
 		<a-scene
 			embedded
 			arjs="sourceType: webcam; debugUIEnabled: false;"
 			vr-mode-ui="enabled: false"
-			cursor="rayOrigin: mouse"
 			raycaster="objects: .clickable"
+			cursor="rayOrigin: mouse"
 		>
-			<a-entity id="camera" camera position="0 0 0"> </a-entity>
+			<!-- Camera -->
+			<a-entity id="camera" camera></a-entity>
 
+			<!-- Marker -->
 			<a-marker
 				type="pattern"
 				url="https://abusaeed-shuvo.github.io/arcard/markers/pattern-logo.patt"
 			>
+				<!-- 3D Model -->
 				<a-entity
 					id="model"
 					position="0 0 0"
 					scale="0.8 0.8 0.8"
 					rotation="-90 0 0"
 					gltf-model="https://abusaeed-shuvo.github.io/arcard/models/business-model.glb"
-				>
-				</a-entity>
+				></a-entity>
 
+				<!-- Social Icons -->
 				<a-entity id="socialIcons" position="0 1 0">
 					<a-image
 						id="githubIcon"
@@ -55,43 +58,48 @@
 				</a-entity>
 			</a-marker>
 		</a-scene>
+
 		<script>
-			// Component to face the camera
+			// Make icons always face the camera
 			AFRAME.registerComponent("face-camera", {
 				tick: function () {
-					const camera = document.querySelector("[camera]");
-					if (!camera) return;
-					const cameraPos = new THREE.Vector3();
-					camera.object3D.getWorldPosition(cameraPos);
-					this.el.object3D.lookAt(cameraPos);
+					const cam = document.querySelector("[camera]");
+					if (!cam) return;
+					const camPos = new THREE.Vector3();
+					cam.object3D.getWorldPosition(camPos);
+					this.el.object3D.lookAt(camPos);
 				},
 			});
 
-			// Open links when icons are clicked (works on mobile and desktop)
-			document.addEventListener("click", function (evt) {
-				const intersected = evt.detail?.intersection?.object?.el;
-				if (!intersected) return;
+			// Handle clicks or touches on icons
+			const github = document.getElementById("githubIcon");
+			const linkedin = document.getElementById("linkedinIcon");
 
-				if (intersected.id === "githubIcon") {
-					window.open("https://github.com/abusaeed-shuvo", "_blank");
-				} else if (intersected.id === "linkedinIcon") {
-					window.open("https://linkedin.com/in/abusaeed-shuvo", "_blank");
-				}
+			function openLink(url) {
+				console.log("Opening link:", url);
+				window.open(url, "_blank", "noopener,noreferrer");
+			}
+
+			github.addEventListener("click", (e) => {
+				e.stopPropagation();
+				openLink("https://github.com/abusaeed-shuvo");
 			});
 
-			// Also support touch events on mobile
-			document
-				.querySelector("a-scene")
-				.addEventListener("click", function (evt) {
-					const intersection = evt.detail.intersectedEl;
-					if (!intersection) return;
+			linkedin.addEventListener("click", (e) => {
+				e.stopPropagation();
+				openLink("https://linkedin.com/in/abusaeed-shuvo");
+			});
 
-					if (intersection.id === "githubIcon") {
-						window.open("https://github.com/abusaeed-shuvo", "_blank");
-					} else if (intersection.id === "linkedinIcon") {
-						window.open("https://linkedin.com/in/abusaeed-shuvo", "_blank");
-					}
-				});
+			// Add touch support for mobile
+			github.addEventListener("touchstart", (e) => {
+				e.stopPropagation();
+				openLink("https://github.com/abusaeed-shuvo");
+			});
+
+			linkedin.addEventListener("touchstart", (e) => {
+				e.stopPropagation();
+				openLink("https://linkedin.com/in/abusaeed-shuvo");
+			});
 		</script>
 	</body>
 </html>
