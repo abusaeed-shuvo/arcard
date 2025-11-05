@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>AR Business Card</title>
 		<script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 		<style>
@@ -11,44 +12,46 @@
 
 			#socialContainer {
 				position: absolute;
-				left: 50%; /* center horizontally */
-				bottom: 10%; /* raise 25% from the bottom of the screen */
-				transform: translateX(-50%); /* perfectly center it */
+				left: 50%;
+				bottom: 10%;
+				transform: translateX(-50%);
 				display: flex;
 				flex-direction: column;
-				gap: 10px; /* spacing between icons */
+				gap: 10px;
 				padding: 10px 15px;
-				border-radius: 15px; /* rounded corners */
+				border-radius: 15px;
 				z-index: 10;
-				/* initially hidden */
 				align-items: center;
 				justify-content: center;
-				display: none;
-				/* Default fallback color */
+				opacity: 0; /* hidden initially */
+				pointer-events: auto;
+				transition: opacity 0.3s ease;
 				background-color: rgba(0, 0, 0, 0.4);
-				backdrop-filter: blur(6px); /* subtle glass effect */
+				backdrop-filter: blur(6px);
 				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 			}
 
-			/* Dark mode */
+			#socialContainer.show {
+				opacity: 1;
+			}
+
+			/* Dark/light mode */
 			@media (prefers-color-scheme: dark) {
 				#socialContainer {
 					background-color: rgba(255, 255, 255, 0.25);
 				}
 			}
-
-			/* Light mode */
 			@media (prefers-color-scheme: light) {
 				#socialContainer {
 					background-color: rgba(0, 0, 0, 0.35);
 				}
 			}
+
 			.row {
 				display: flex;
-				gap: 10px; /* spacing between icons */
+				gap: 10px;
 			}
 
-			/* Icons */
 			.social-icon {
 				width: 50px;
 				height: 50px;
@@ -93,7 +96,7 @@
 			<a-assets>
 				<img
 					id="cardPNG"
-					src="https://abusaeed-shuvo.github.io/arcard/img/icon.jpg"
+					src="https://abusaeed-shuvo.github.io/arcard/img/logo.jpg"
 				/>
 
 				<video
@@ -111,12 +114,7 @@
 			<!-- AR Target -->
 			<a-entity mindar-image-target="targetIndex: 0">
 				<!-- CardPNG -->
-				<a-entity
-					position="0 0.8 0.05"
-					rotation="0 0 0"
-					width="1.2"
-					height="0.7"
-				>
+				<a-entity position="0 0.8 0.05" rotation="0 0 0">
 					<a-plane
 						src="#cardPNG"
 						width="0.6"
@@ -157,70 +155,41 @@
 
 		<script>
 			const videoEl = document.getElementById("introVideo");
-			// Get the container
 			const socialContainer = document.getElementById("socialContainer");
-
-			// MindAR target entity
 			const target = document.querySelector("[mindar-image-target]");
 
-			// Show social icons when target is found
+			// Show/hide social icons with fade effect
 			target.addEventListener("targetFound", () => {
-				socialContainer.style.display = "flex";
+				socialContainer.classList.add("show");
+				videoEl.play();
 			});
-
 			target.addEventListener("targetLost", () => {
-				socialContainer.style.display = "none";
+				socialContainer.classList.remove("show");
 			});
 
-			// Autoplay muted when AR target is found
-			document
-				.querySelector("[mindar-image-target]")
-				.addEventListener("targetFound", () => {
-					videoEl.play();
-				});
-
-			// Overlay icon click events
-			// Facebook profile/page
-			document.getElementById("facebookIcon").addEventListener("click", () => {
-				window.open("https://www.facebook.com/yourusername", "_blank");
-			});
-
-			// LinkedIn profile
-			document.getElementById("linkedinIcon").addEventListener("click", () => {
-				window.open("https://www.linkedin.com/in/yourusername", "_blank");
-			});
-
-			// WhatsApp chat (replace number with country code)
-			document.getElementById("whatsappIcon").addEventListener("click", () => {
-				window.open("https://wa.me/8801234567890", "_blank"); // Bangladesh number example
-			});
-
-			// Location (Google Maps)
-			document.getElementById("locationIcon").addEventListener("click", () => {
-				window.open(
-					"https://www.google.com/maps?q=123+Main+Street,+City",
-					"_blank"
-				);
-			});
-
-			// Phone call
-			document.getElementById("phoneIcon").addEventListener("click", () => {
-				window.location.href = "tel:+8801234567890"; // your phone number
-			});
-
-			// Email
-			document.getElementById("mailIcon").addEventListener("click", () => {
-				window.location.href = "mailto:youremail@example.com";
-			});
-
-			// Website
-			document.getElementById("websiteIcon").addEventListener("click", () => {
-				window.open("https://www.yourwebsite.com", "_blank");
-			});
-
-			// Contact card (vCard download or custom action)
-			document.getElementById("contactIcon").addEventListener("click", () => {
-				window.open("./your-contact.vcf", "_blank"); // vCard file
+			// Social icon click/tap events
+			const actions = {
+				facebookIcon: () =>
+					window.open("https://www.facebook.com/yourusername", "_blank"),
+				linkedinIcon: () =>
+					window.open("https://www.linkedin.com/in/yourusername", "_blank"),
+				whatsappIcon: () =>
+					window.open("https://wa.me/8801234567890", "_blank"),
+				locationIcon: () =>
+					window.open(
+						"https://www.google.com/maps?q=123+Main+Street,+City",
+						"_blank"
+					),
+				phoneIcon: () => (window.location.href = "tel:+8801234567890"),
+				mailIcon: () => (window.location.href = "mailto:youremail@example.com"),
+				websiteIcon: () => window.open("https://www.yourwebsite.com", "_blank"),
+				contactIcon: () => window.open("./your-contact.vcf", "_blank"),
+			};
+			// Attach both click and touchstart for mobile
+			Object.keys(actions).forEach((id) => {
+				const el = document.getElementById(id);
+				el.addEventListener("click", actions[id]);
+				el.addEventListener("touchstart", actions[id]);
 			});
 		</script>
 	</body>
