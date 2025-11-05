@@ -12,7 +12,7 @@
 			#socialContainer {
 				position: absolute;
 				left: 50%; /* center horizontally */
-				bottom: 15%; /* raise 25% from the bottom of the screen */
+				bottom: 10%; /* raise 25% from the bottom of the screen */
 				transform: translateX(-50%); /* perfectly center it */
 				display: flex;
 				flex-direction: column;
@@ -23,7 +23,7 @@
 				/* initially hidden */
 				align-items: center;
 				justify-content: center;
-
+				display: none;
 				/* Default fallback color */
 				background-color: rgba(0, 0, 0, 0.4);
 				backdrop-filter: blur(6px); /* subtle glass effect */
@@ -168,7 +168,6 @@
 					socialContainer.style.display = "flex";
 				});
 
-				// Hide social icons when target is lost
 				target.addEventListener("targetLost", () => {
 					socialContainer.style.display = "none";
 				}); -->
