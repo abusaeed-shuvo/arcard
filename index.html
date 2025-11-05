@@ -17,8 +17,9 @@
 			arjs="sourceType: webcam; debugUIEnabled: false;"
 			vr-mode-ui="enabled: false"
 			cursor="rayOrigin: mouse"
+			raycaster="objects: .clickable"
 		>
-			<a-entity id="camera" camera> </a-entity>
+			<a-entity id="camera" camera position="0 0 0"> </a-entity>
 
 			<a-marker
 				type="pattern"
@@ -66,23 +67,31 @@
 				},
 			});
 
-			// Touch support for mobile
-			document.addEventListener("touchstart", function (e) {
-				const touch = e.touches[0];
-				const elements = document.elementsFromPoint(
-					touch.clientX,
-					touch.clientY
-				);
-				for (const el of elements) {
-					if (el.id === "githubIcon") {
-						window.open("https://github.com/abusaeed-shuvo", "_blank");
-						break;
-					} else if (el.id === "linkedinIcon") {
-						window.open("https://linkedin.com/in/abusaeed-shuvo", "_blank");
-						break;
-					}
+			// Open links when icons are clicked (works on mobile and desktop)
+			document.addEventListener("click", function (evt) {
+				const intersected = evt.detail?.intersection?.object?.el;
+				if (!intersected) return;
+
+				if (intersected.id === "githubIcon") {
+					window.open("https://github.com/abusaeed-shuvo", "_blank");
+				} else if (intersected.id === "linkedinIcon") {
+					window.open("https://linkedin.com/in/abusaeed-shuvo", "_blank");
 				}
 			});
+
+			// Also support touch events on mobile
+			document
+				.querySelector("a-scene")
+				.addEventListener("click", function (evt) {
+					const intersection = evt.detail.intersectedEl;
+					if (!intersection) return;
+
+					if (intersection.id === "githubIcon") {
+						window.open("https://github.com/abusaeed-shuvo", "_blank");
+					} else if (intersection.id === "linkedinIcon") {
+						window.open("https://linkedin.com/in/abusaeed-shuvo", "_blank");
+					}
+				});
 		</script>
 	</body>
 </html>
