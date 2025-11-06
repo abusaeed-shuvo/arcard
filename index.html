@@ -3,6 +3,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>AR Business Card</title>
 		<script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js"></script>
+
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -270,7 +272,51 @@
 		<div id="addToContact">
 			<img src="./icons/add-to-contact.png" alt="Add to contact" />
 		</div>
+		<a-scene
+			mindar-image="imageTargetSrc: https://abusaeed-shuvo.github.io/arcard/targets/target.mind; autoStart: true"
+			vr-mode-ui="enabled: false"
+			embedded
+			color-space="sRGB"
+			renderer="antialias: true; alpha: true"
+			id="arScene"
+			style="
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 50;
+			"
+		>
+			<a-entity mindar-image-target="targetIndex: 0">
+				<!-- 3D model in GLB format -->
+				<a-entity
+					gltf-model="https://abusaeed-shuvo.github.io/arcard/models/model.glb"
+					scale="0.5 0.5 0.5"
+					position="0 0 0"
+					rotation="0 0 0"
+				></a-entity>
+			</a-entity>
+
+			<a-entity camera></a-entity>
+		</a-scene>
 		<script>
+			const arScene = document.querySelector("#arScene");
+			const htmlElements = [
+				document.getElementById("fixedVideo"),
+				document.getElementById("logoBox"),
+				document.getElementById("contactContainer"),
+				document.getElementById("socialContainer"),
+				document.getElementById("addToContact"),
+			];
+
+			arScene.addEventListener("targetFound", () => {
+				htmlElements.forEach((el) => (el.style.display = "none"));
+			});
+
+			arScene.addEventListener("targetLost", () => {
+				htmlElements.forEach((el) => (el.style.display = "flex")); // or original display style
+			});
 			// Open back camera
 			async function startCamera() {
 				try {
