@@ -197,12 +197,22 @@
 				transform: scale(1.05);
 				opacity: 1;
 			}
+			#muteBtn {
+				position: fixed;
+				top: 1rem;
+				right: 1rem;
+				width: 40px;
+				height: 40px;
+				z-index: 30;
+				cursor: pointer;
+			}
 		</style>
 	</head>
 
 	<body>
 		<video id="cameraFeed" autoplay playsinline muted></video>
 
+		<img id="muteBtn" src="./icons/mute.png" alt="Mute/Unmute" />
 		<video
 			id="fixedVideo"
 			src="https://abusaeed-shuvo.github.io/arcard/videos/intro.mp4"
@@ -274,6 +284,24 @@
 				}
 			}
 			startCamera();
+
+			// Mute/Unmute video
+			const video = document.getElementById("fixedVideo");
+			const btn = document.getElementById("muteBtn");
+
+			// Set initial state
+			video.muted = true;
+
+			// Paths to your icons
+			const icons = {
+				muted: "./icons/mute.png",
+				unmuted: "./icons/unmute.png",
+			};
+
+			btn.addEventListener("click", () => {
+				video.muted = !video.muted;
+				btn.src = video.muted ? icons.muted : icons.unmuted;
+			});
 
 			// Social actions
 			const actions = {
