@@ -16,6 +16,7 @@
 				justify-content: space-between; /* distributes top (video), center (logo), bottom (contact) */
 				height: 100vh; /* full viewport */
 				margin: 0;
+				padding: 0;
 				align-items: center;
 				font-family: "Montserrat", sans-serif;
 				background: #6d6666;
@@ -43,7 +44,6 @@
 				object-fit: cover;
 				z-index: 20;
 				margin-top: 0;
-				max-width: 500px;
 			}
 
 			#logoBox {
@@ -53,7 +53,7 @@
 				justify-content: center;
 				padding: 0.75rem 1rem;
 				border-radius: 0.75rem;
-				background-color: rgba(0, 0, 0, 0.4);
+				background-color: rgba(0, 0, 0, 0.2);
 				backdrop-filter: blur(6px);
 				gap: 1rem;
 				text-align: center;
@@ -95,7 +95,7 @@
 				max-width: 400px;
 				padding: 0.5rem;
 				border-radius: 0.5rem;
-				background-color: rgba(0, 0, 0, 0.4);
+				background-color: rgba(0, 0, 0, 0.2);
 				backdrop-filter: blur(6px);
 				margin-left: auto;
 				margin-right: auto;
@@ -148,29 +148,12 @@
 				max-width: 500px;
 				padding: 0.75rem 1rem;
 				border-radius: 0.75rem;
-				background-color: rgba(0, 0, 0, 0.4);
+				background-color: rgba(0, 0, 0, 0.2);
 				backdrop-filter: blur(6px);
 				margin-left: auto;
 				margin-right: auto;
 				margin-bottom: 1%;
 				z-index: 10;
-			}
-			@media (prefers-color-scheme: dark) {
-				#socialContainer {
-					background-color: rgba(255, 255, 255, 0.15);
-				}
-				#contactContainer {
-					background-color: rgba(255, 255, 255, 0.15);
-				}
-			}
-
-			@media (prefers-color-scheme: light) {
-				#socialContainer {
-					background-color: rgba(0, 0, 0, 0.35);
-				}
-				#contactContainer {
-					background-color: rgba(0, 0, 0, 0.35);
-				}
 			}
 
 			.social-icon {
