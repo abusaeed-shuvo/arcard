@@ -236,7 +236,7 @@
 					src="#displayModel"
 					rotation="90 0 0"
 					position="0 0 0.01"
-					scale="0.5 0.5 0.5"
+					scale="1 1 1"
 				></a-gltf-model>
 			</a-entity>
 		</a-scene>
@@ -303,17 +303,10 @@
 
 		<script>
 			const arScene = document.querySelector("#arScene");
-			const htmlElements = [
-				document.getElementById("fixedVideo"),
-				document.getElementById("logoBox"),
-				document.getElementById("contactContainer"),
-				document.getElementById("socialContainer"),
-				document.getElementById("addToContact"),
-			];
+			const htmlElements = [document.getElementById("contactContainer")];
 
 			arScene.addEventListener("targetFound", () => {
 				htmlElements.forEach((el) => (el.style.display = "none"));
-				alert("AR Target Found!");
 			});
 
 			arScene.addEventListener("targetLost", () => {
