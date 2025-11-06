@@ -3,10 +3,17 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>AR Business Card</title>
 		<script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+			rel="stylesheet"
+		/>
 		<style>
 			body {
 				margin: 0;
 				overflow: hidden;
+				font-family: "Montserrat", sans-serif;
 			}
 
 			/* Camera video style (fixed position) */
@@ -24,10 +31,10 @@
 			#fixedVideo {
 				position: fixed;
 				left: 50%;
-				top: 10%;
+				top: 5%;
 				transform: translateX(-50%);
-				width: 320px;
-				height: 180px;
+				aspect-ratio: 20 / 9;
+				height: 100px;
 				border-radius: 12px;
 				box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 				z-index: 20;
@@ -38,7 +45,7 @@
 			#logoBox {
 				position: fixed;
 				left: 50%;
-				bottom: 28%;
+				top: 20%;
 				transform: translateX(-50%);
 				text-align: center;
 				z-index: 20;
@@ -65,28 +72,34 @@
 				opacity: 0.85;
 			}
 
-			/* Social buttons */
 			#socialContainer {
 				position: fixed;
-				left: 50%;
-				bottom: 5%;
-				transform: translateX(-50%);
+				left: 0;
+				right: 0;
+				bottom: 0;
 				display: flex;
 				flex-direction: column;
-				gap: 10px;
-				padding: 10px 15px;
-				border-radius: 15px;
-				z-index: 10;
+				flex-wrap: wrap;
+				justify-content: space-evenly;
 				align-items: center;
-				justify-content: center;
+				gap: 10px;
+				padding: 12px 0;
+				z-index: 10;
 				background-color: rgba(0, 0, 0, 0.4);
 				backdrop-filter: blur(6px);
-				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+				box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
 			}
 
-			.row {
-				display: flex;
-				gap: 10px;
+			@media (prefers-color-scheme: dark) {
+				#socialContainer {
+					background-color: rgba(255, 255, 255, 0.15);
+				}
+			}
+
+			@media (prefers-color-scheme: light) {
+				#socialContainer {
+					background-color: rgba(0, 0, 0, 0.35);
+				}
 			}
 
 			.social-icon {
@@ -100,14 +113,19 @@
 				transform: scale(1.15);
 				opacity: 0.9;
 			}
+
+			@media (max-width: 500px) {
+				.social-icon {
+					width: 40px;
+					height: 40px;
+				}
+			}
 		</style>
 	</head>
 
 	<body>
-		<!-- ✅ Camera Feed -->
 		<video id="cameraFeed" autoplay playsinline muted></video>
 
-		<!-- ✅ Fixed video -->
 		<video
 			id="fixedVideo"
 			src="https://abusaeed-shuvo.github.io/arcard/videos/intro.mp4"
@@ -117,7 +135,6 @@
 			loop
 		></video>
 
-		<!-- ✅ Always visible logo + text -->
 		<div id="logoBox">
 			<img
 				src="https://abusaeed-shuvo.github.io/arcard/img/profile.png"
@@ -127,23 +144,21 @@
 			<p>Android & AR Developer</p>
 		</div>
 
-		<!-- ✅ Social buttons -->
 		<div id="socialContainer">
 			<div class="row">
 				<img id="facebookIcon" class="social-icon" src="./icons/facebook.png" />
 				<img id="linkedinIcon" class="social-icon" src="./icons/linkedin.png" />
 				<img id="whatsappIcon" class="social-icon" src="./icons/whatsapp.png" />
-				<img id="locationIcon" class="social-icon" src="./icons/location.png" />
+				<img id="websiteIcon" class="social-icon" src="./icons/web.png" />
 			</div>
 			<div class="row">
 				<img id="phoneIcon" class="social-icon" src="./icons/call.png" />
 				<img id="mailIcon" class="social-icon" src="./icons/mail.png" />
-				<img id="websiteIcon" class="social-icon" src="./icons/web.png" />
+				<img id="locationIcon" class="social-icon" src="./icons/location.png" />
 				<img id="contactIcon" class="social-icon" src="./icons/contact.png" />
 			</div>
 		</div>
 
-		<!-- ✅ Minimal script: open camera & handle links -->
 		<script>
 			// Open back camera
 			async function startCamera() {
@@ -154,7 +169,7 @@
 					});
 					document.getElementById("cameraFeed").srcObject = stream;
 				} catch (e) {
-					alert("Camera access denied or unavailable.");
+					logger(e);
 				}
 			}
 			startCamera();
