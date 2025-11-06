@@ -32,7 +32,7 @@
 				left: 0;
 				width: 100%;
 				height: 100%;
-				z-index: 0;
+				z-index: -1;
 			}
 			#fixedVideo {
 				width: 100vw;
@@ -207,40 +207,6 @@
 	</head>
 
 	<body>
-		<!-- Html for ar -->
-		<a-scene
-			id="arScene"
-			mindar-image="imageTargetSrc: https://abusaeed-shuvo.github.io/arcard/targets/targets.mind; 
-                uiLoading: false; 
-                uiScanning: false;
-    
-            "
-			color-space="sRGB"
-			renderer="colorManagement: true, physicallyCorrectLights"
-			vr-mode-ui="enabled: false"
-			device-orientation-permission-ui="enabled: false"
-		>
-			<a-assets>
-				<a-asset-item
-					id="displayModel"
-					src="https://abusaeed-shuvo.github.io/arcard/models/model.glb"
-				></a-asset-item>
-			</a-assets>
-
-			<a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-
-			<!-- AR Target -->
-			<a-entity mindar-image-target="targetIndex: 0">
-				<!-- 3D Model -->
-				<a-gltf-model
-					src="#displayModel"
-					rotation="90 0 0"
-					position="0 0 0.01"
-					scale="1 1 1"
-				></a-gltf-model>
-			</a-entity>
-		</a-scene>
-
 		<!-- Html part for other -->
 		<img id="muteBtn" src="./icons/mute.png" alt="Mute/Unmute" />
 		<video
@@ -301,25 +267,62 @@
 			<img src="./icons/add-to-contact.png" alt="Add to contact" />
 		</div>
 
+		<!-- Html for ar -->
+		<a-scene
+			id="arScene"
+			mindar-image="imageTargetSrc: https://abusaeed-shuvo.github.io/arcard/targets/targets.mind; 
+                uiLoading: false; 
+                uiScanning: false;
+    
+            "
+			color-space="sRGB"
+			renderer="colorManagement: true, physicallyCorrectLights"
+			vr-mode-ui="enabled: false"
+			device-orientation-permission-ui="enabled: false"
+		>
+			<a-assets>
+				<a-asset-item
+					id="displayModel"
+					src="https://abusaeed-shuvo.github.io/arcard/models/model.glb"
+				></a-asset-item>
+			</a-assets>
+
+			<a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+			<!-- AR Target -->
+			<a-entity mindar-image-target="targetIndex: 0">
+				<!-- 3D Model -->
+				<a-gltf-model
+					src="#displayModel"
+					rotation="90 0 0"
+					position="0 0 0.01"
+					scale="1 1 1"
+				></a-gltf-model>
+			</a-entity>
+		</a-scene>
+
 		<script>
 			const arScene = document.querySelector("#arScene");
+			const video = document.getElementById("fixedVideo");
+			const btn = document.getElementById("muteBtn");
+
 			const htmlElements = [
 				document.getElementById("fixedVideo"),
 				document.getElementById("logoBox"),
 				document.getElementById("contactContainer"),
 				document.getElementById("socialContainer"),
+				document.getElementById("muteBtn"),
 			];
 
 			arScene.addEventListener("targetFound", () => {
 				htmlElements.forEach((el) => (el.style.display = "none"));
+				video.pause();
 			});
 
 			arScene.addEventListener("targetLost", () => {
 				htmlElements.forEach((el) => (el.style.display = "flex")); // or original display style
+				video.play();
 			});
-			// Mute/Unmute video
-			const video = document.getElementById("fixedVideo");
-			const btn = document.getElementById("muteBtn");
 
 			// Set initial state
 			video.muted = true;
