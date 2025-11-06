@@ -32,10 +32,10 @@
 			#fixedVideo {
 				position: fixed;
 				left: 50%;
-				top: 5%;
+				top: 0px;
 				transform: translateX(-50%);
-				aspect-ratio: 20 / 9;
-				height: 100px;
+				width: auto;
+				height: 25%;
 				border-radius: 12px;
 				box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 				z-index: 20;
@@ -44,9 +44,10 @@
 
 			/* Logo always visible at center-bottom */
 			#logoBox {
+				margin-top: 10px;
 				position: fixed;
 				left: 50%;
-				top: 20%;
+				top: 25%;
 				transform: translateX(-50%);
 				text-align: center;
 				z-index: 20;
@@ -72,7 +73,18 @@
 				font-size: 0.95em;
 				opacity: 0.85;
 			}
-
+			#contactContainer {
+				position: fixed;
+				left: 50%;
+				bottom: calc(24px + 100px + 12px);
+				transform: translateX(-50%);
+				display: flex;
+				flex-direction: column;
+				justify-content: start;
+				align-items: flex-start;
+				gap: 10px;
+				z-index: 20;
+			}
 			#socialContainer {
 				position: fixed;
 				left: 0;
@@ -86,7 +98,7 @@
 				justify-content: space-evenly;
 				align-items: center;
 				gap: 10px;
-				padding: 12px 0;
+				padding: 12px;
 				z-index: 10;
 				background-color: rgba(0, 0, 0, 0.4);
 				backdrop-filter: blur(6px);
@@ -104,10 +116,36 @@
 					background-color: rgba(0, 0, 0, 0.35);
 				}
 			}
-
+			.contact-container {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+				gap: 10px;
+				cursor: pointer;
+				transition: transform 0.2s ease, opacity 0.2s ease,
+					background-color 0.2s ease, padding 0.2s ease, box-shadow 0.2s ease;
+				padding: 6px 10px;
+				border-radius: 8px;
+				background-color: rgba(0, 0, 0, 0);
+			}
+			.contact-container:hover {
+				transform: scale(1.1);
+				opacity: 0.95;
+				padding: 6px 12px;
+				border-radius: 12px;
+				background-color: rgba(0, 0, 0, 0.4);
+				backdrop-filter: blur(6px);
+				box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
+			}
+			.contact-container h2 {
+				margin: 0;
+				font-size: 1em;
+				color: white;
+			}
 			.social-icon {
-				width: 100px;
-				height: 100px;
+				width: 72px;
+				height: 72px;
 				cursor: pointer;
 				transition: transform 0.2s ease, opacity 0.2s ease;
 			}
@@ -123,9 +161,9 @@
 					height: 72px;
 				}
 			}
-			.row1 {
-				display: flex;
-				flex-direction: row;
+			.contact-icon {
+				width: 72px;
+				height: 72px;
 			}
 		</style>
 	</head>
@@ -141,17 +179,42 @@
 			playsinline
 			loop
 		></video>
+		<!-- <iframe
+			id="fixedVideo"
+			width="320"
+			height="180"
+			src="https://www.youtube.com/embed/6VF7ikBwU0U?autoplay=1&mute=1"
+			frameborder="0"
+			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+			allowfullscreen
+		>
+		</iframe> -->
 
 		<div id="logoBox">
 			<img src="./img/icon.jpg" alt="Profile" />
 			<h2>Abusaeed Shuvo</h2>
 			<p>Android & AR Developer</p>
 		</div>
-		<div class="contactContainer">
-			<img id="phoneIcon" class="social-icon" src="./icons/call.png" />
-			<img id="mailIcon" class="social-icon" src="./icons/mail.png" />
-			<img id="locationIcon" class="social-icon" src="./icons/location.png" />
-			<img id="contactIcon" class="social-icon" src="./icons/contact.png" />
+		<div id="contactContainer">
+			<div id="phoneIcon" class="contact-container">
+				<img class="contact-icon" src="./icons/call.png" />
+				<h2>+8801234567890</h2>
+			</div>
+
+			<div id="mailIcon" class="contact-container">
+				<img class="contact-icon" src="./icons/mail.png" />
+				<h2>youremail@example.com</h2>
+			</div>
+
+			<div id="locationIcon" class="contact-container">
+				<img class="contact-icon" src="./icons/location.png" />
+				<h2>123 Main Street, City</h2>
+			</div>
+
+			<div id="contactIcon" class="contact-container">
+				<img class="contact-icon" src="./icons/contact.png" />
+				<h2>Download vCard</h2>
+			</div>
 		</div>
 		<div id="socialContainer">
 			<img id="facebookIcon" class="social-icon" src="./icons/facebook.png" />
