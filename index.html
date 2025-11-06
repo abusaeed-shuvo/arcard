@@ -303,7 +303,12 @@
 
 		<script>
 			const arScene = document.querySelector("#arScene");
-			const htmlElements = [document.getElementById("contactContainer")];
+			const htmlElements = [
+				document.getElementById("fixedVideo"),
+				document.getElementById("logoBox"),
+				document.getElementById("contactContainer"),
+				document.getElementById("socialContainer"),
+			];
 
 			arScene.addEventListener("targetFound", () => {
 				htmlElements.forEach((el) => (el.style.display = "none"));
