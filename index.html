@@ -286,8 +286,8 @@
 		>
 			<a-assets>
 				<a-asset-item
-					id="cutFish"
-					src="https://abusaeed-shuvo.github.io/arcard/models/cut-fish.glb"
+					id="displayModel"
+					src="https://abusaeed-shuvo.github.io/arcard/models/model.glb"
 				></a-asset-item>
 			</a-assets>
 
@@ -297,7 +297,7 @@
 			<a-entity mindar-image-target="targetIndex: 0">
 				<!-- 3D Model -->
 				<a-gltf-model
-					src="#cutFish"
+					src="#displayModel"
 					rotation="90 0 0"
 					position="0 0 0.01"
 					scale="0.5 0.5 0.5"
@@ -316,6 +316,7 @@
 
 			arScene.addEventListener("targetFound", () => {
 				htmlElements.forEach((el) => (el.style.display = "none"));
+				alert("AR Target Found!");
 			});
 
 			arScene.addEventListener("targetLost", () => {
