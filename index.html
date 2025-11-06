@@ -17,7 +17,7 @@
 				height: 100vh; /* full viewport */
 				margin: 0;
 				padding: 0;
-				align-items: center;
+				align-items: stretch;
 				font-family: "Montserrat", sans-serif;
 				background: #6d6666;
 				overflow: hidden;
@@ -37,7 +37,7 @@
 			}
 
 			#fixedVideo {
-				width: 100%;
+				width: 100vw;
 				height: 20vh; /* relative height */
 				border-radius: 12px;
 				box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
@@ -56,10 +56,14 @@
 				background-color: rgba(0, 0, 0, 0.2);
 				backdrop-filter: blur(6px);
 				gap: 1rem;
+				max-width: 500px;
 				text-align: center;
 				color: white;
 				z-index: 20;
 				flex-shrink: 0;
+
+				margin-left: auto;
+				margin-right: auto;
 			}
 			#logoBox img {
 				width: 100px;
@@ -178,7 +182,7 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				margin-bottom: 5%;
+				margin-bottom: 10%;
 				cursor: pointer;
 			}
 
