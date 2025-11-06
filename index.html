@@ -10,12 +10,6 @@
 			rel="stylesheet"
 		/>
 		<style>
-			/* body {
-				margin: 0;
-				overflow: hidden;
-				font-family: "Montserrat", sans-serif;
-				background: #6d6666;
-			}*/
 			body {
 				display: flex;
 				flex-direction: column;
@@ -41,19 +35,6 @@
 				z-index: -1;
 			}
 
-			/* Fixed video at top */
-			/* #fixedVideo {
-				position: fixed;
-				left: 50%;
-				top: 0px;
-				transform: translateX(-50%);
-				width: auto;
-				height: 25%;
-				border-radius: 12px;
-				box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-				z-index: 20;
-				object-fit: cover;
-			} */
 			#fixedVideo {
 				width: 100%;
 				height: 20vh; /* relative height */
@@ -64,50 +45,16 @@
 				margin-top: 0;
 				max-width: 500px;
 			}
-			/* Logo always visible at center-bottom */
-			/* #logoBox {
-				margin-top: 10px;
-				position: fixed;
-				left: 50%;
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				justify-content: center;
-				gap: 12px;
-				top: 25%;
-				transform: translateX(-50%);
-				text-align: center;
-				z-index: 20;
-				color: white;
-			} 
-			 	#logoBox img {
-				width: 100px;
-				height: 100px;
-				object-fit: cover;
-				border-radius: 50%;
-				border: 2px solid white;
-				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-			}
-
-			#logoBox h2 {
-				margin: 8px 0 2px;
-				font-size: 1.2em;
-			}
-
-			#logoBox p {
-				margin: 0;
-				font-size: 0.95em;
-				opacity: 0.85;
-			}
-			
-			
-			*/
 
 			#logoBox {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
 				justify-content: center;
+				padding: 0.75rem 1rem;
+				border-radius: 0.75rem;
+				background-color: rgba(0, 0, 0, 0.4);
+				backdrop-filter: blur(6px);
 				gap: 1rem;
 				text-align: center;
 				color: white;
@@ -139,25 +86,6 @@
 				align-items: flex-start;
 			}
 
-			/*
-			#contactContainer {
-				position: fixed;
-				left: 50%;
-				bottom: calc(24px + 100px + 12px);
-				transform: translateX(-50%);
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
-				gap: 1rem; 
-				z-index: 20;
-				width: 90%; 
-				padding: 0.5rem;
-				max-width: 400px; 
-				border-radius: 0.5rem;
-				background-color: rgba(0, 0, 0, 0.4);
-				backdrop-filter: blur(6px);
-			}
-			*/
 			#contactContainer {
 				display: flex;
 				flex-direction: column;
@@ -208,31 +136,9 @@
 			.contact-icon {
 				width: 3rem;
 				height: 3rem;
-				flex-shrink: 0; /* keeps icon size consistent */
+				flex-shrink: 0;
 			}
-			/* Social Container at bottom */
 
-			/*
-			#socialContainer {
-				position: fixed;
-				left: 50%;
-				bottom: 0;
-				transform: translateX(-50%);
-				display: flex;
-				flex-direction: row;
-				flex-wrap: wrap;
-				justify-content: space-evenly;
-				align-items: center;
-				gap: 1rem;
-				padding: 0.75rem 1rem;
-				border-radius: 0.75rem;
-				width: 95%; 
-				max-width: 500px;
-				z-index: 10;
-				background-color: rgba(0, 0, 0, 0.4);
-				backdrop-filter: blur(6px);
-			}
-			*/
 			#socialContainer {
 				display: flex;
 				justify-content: space-evenly;
@@ -246,10 +152,13 @@
 				backdrop-filter: blur(6px);
 				margin-left: auto;
 				margin-right: auto;
-				margin-bottom: 5%;
+				margin-bottom: 1%;
 				z-index: 10;
 			}
 			@media (prefers-color-scheme: dark) {
+				#logoBox {
+					background-color: rgba(255, 255, 255, 0.15);
+				}
 				#socialContainer {
 					background-color: rgba(255, 255, 255, 0.15);
 				}
@@ -259,6 +168,9 @@
 			}
 
 			@media (prefers-color-scheme: light) {
+				#logoBox {
+					background-color: rgba(0, 0, 0, 0.35);
+				}
 				#socialContainer {
 					background-color: rgba(0, 0, 0, 0.35);
 				}
@@ -266,7 +178,7 @@
 					background-color: rgba(0, 0, 0, 0.35);
 				}
 			}
-			/* Social icons */
+
 			.social-icon {
 				width: 3rem;
 				height: 3rem;
@@ -284,6 +196,26 @@
 					width: 72px;
 					height: 72px;
 				}
+			}
+			#addToContact {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-bottom: 5%;
+				cursor: pointer;
+			}
+
+			#addToContact img {
+				width: 160px; /* adjust as needed */
+				height: auto;
+				display: block;
+				opacity: 0.9;
+				transition: transform 0.2s ease, opacity 0.2s ease;
+			}
+
+			#addToContact:hover img {
+				transform: scale(1.05);
+				opacity: 1;
 			}
 		</style>
 	</head>
@@ -337,18 +269,17 @@
 				<h2>Facebook Profile</h2>
 			</div>
 		</div>
-		<div id="contactIcon" class="contact-container">
-			<img class="contact-icon" src="./icons/contact.png" />
-			<h2>Add Contact</h2>
-		</div>
 
 		<div id="socialContainer">
-			<img id="facebookIcon" class="social-icon" src="./icons/facebook.png" />
+			<img id="snapchatIcon" class="social-icon" src="./icons/snapchat.png" />
 			<img id="linkedinIcon" class="social-icon" src="./icons/linkedin.png" />
+
 			<img id="whatsappIcon" class="social-icon" src="./icons/whatsapp.png" />
 			<img id="websiteIcon" class="social-icon" src="./icons/web.png" />
 		</div>
-
+		<div id="addToContact">
+			<img src="./icons/add-to-contact.png" alt="Add to contact" />
+		</div>
 		<script>
 			// Open back camera
 			async function startCamera() {
@@ -380,7 +311,7 @@
 				phoneIcon: () => (window.location.href = "tel:+8801234567890"),
 				mailIcon: () => (window.location.href = "mailto:youremail@example.com"),
 				websiteIcon: () => window.open("https://www.yourwebsite.com", "_blank"),
-				contactIcon: () => window.open("./my-contact.vcf", "_blank"),
+				addToContact: () => window.open("./my-contact.vcf", "_blank"),
 			};
 
 			Object.keys(actions).forEach((id) => {
