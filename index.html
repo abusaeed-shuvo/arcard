@@ -47,6 +47,11 @@
 				margin-top: 10px;
 				position: fixed;
 				left: 50%;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: center;
+				gap: 12px;
 				top: 25%;
 				transform: translateX(-50%);
 				text-align: center;
@@ -80,10 +85,47 @@
 				transform: translateX(-50%);
 				display: flex;
 				flex-direction: column;
-				justify-content: start;
-				align-items: flex-start;
-				gap: 10px;
+				align-items: flex-start; /* align children to start */
+				gap: 1rem; /* use relative spacing */
 				z-index: 20;
+				width: 90%; /* relative width */
+				max-width: 400px; /* optional max width */
+			}
+
+			/* Each contact item */
+			.contact-container {
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start; /* align children left */
+				align-items: center;
+				gap: 0.2rem; /* relative spacing */
+				cursor: pointer;
+				transition: transform 0.2s ease, opacity 0.2s ease,
+					background-color 0.2s ease, padding 0.2s ease, box-shadow 0.2s ease;
+				padding: 0.5rem 1rem; /* relative padding */
+				border-radius: 0.5rem;
+				background-color: rgba(0, 0, 0, 0);
+			}
+			.contact-container:hover {
+				transform: scale(1.05);
+				opacity: 0.95;
+				background-color: rgba(0, 0, 0, 0.4);
+				backdrop-filter: blur(6px);
+				box-shadow: 0 -0.25rem 0.625rem rgba(0, 0, 0, 0.3);
+			}
+
+			.contact-container h2 {
+				margin: 0;
+				font-size: 1em;
+				color: white;
+				word-break: break-word; /* keep text inside container */
+			}
+
+			/* Contact icon */
+			.contact-icon {
+				width: 3rem;
+				height: 3rem;
+				flex-shrink: 0; /* keeps icon size consistent */
 			}
 			#socialContainer {
 				position: fixed;
@@ -116,33 +158,6 @@
 					background-color: rgba(0, 0, 0, 0.35);
 				}
 			}
-			.contact-container {
-				display: flex;
-				flex-direction: row;
-				justify-content: center;
-				align-items: center;
-				gap: 10px;
-				cursor: pointer;
-				transition: transform 0.2s ease, opacity 0.2s ease,
-					background-color 0.2s ease, padding 0.2s ease, box-shadow 0.2s ease;
-				padding: 6px 10px;
-				border-radius: 8px;
-				background-color: rgba(0, 0, 0, 0);
-			}
-			.contact-container:hover {
-				transform: scale(1.1);
-				opacity: 0.95;
-				padding: 6px 12px;
-				border-radius: 12px;
-				background-color: rgba(0, 0, 0, 0.4);
-				backdrop-filter: blur(6px);
-				box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
-			}
-			.contact-container h2 {
-				margin: 0;
-				font-size: 1em;
-				color: white;
-			}
 			.social-icon {
 				width: 72px;
 				height: 72px;
@@ -160,10 +175,6 @@
 					width: 72px;
 					height: 72px;
 				}
-			}
-			.contact-icon {
-				width: 60px;
-				height: 60px;
 			}
 		</style>
 	</head>
@@ -192,8 +203,10 @@
 
 		<div id="logoBox">
 			<img src="./img/icon.jpg" alt="Profile" />
-			<h2>Abusaeed Shuvo</h2>
-			<p>Android & AR Developer</p>
+			<div>
+				<h2>Abusaeed Shuvo</h2>
+				<p>Android & AR Developer</p>
+			</div>
 		</div>
 		<div id="contactContainer">
 			<div id="phoneIcon" class="contact-container">
