@@ -3,28 +3,73 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>AR Business Card</title>
 		<script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 		<style>
 			body {
 				margin: 0;
 				overflow: hidden;
 			}
+
+			/* Camera video style (fixed position) */
+			#cameraFeed {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100vw;
+				height: 100vh;
+				object-fit: cover;
+				z-index: -1;
+			}
+
+			/* Fixed video at top */
 			#fixedVideo {
 				position: fixed;
-				bottom: 20px;
-				right: 20px;
+				left: 50%;
+				top: 10%;
+				transform: translateX(-50%);
 				width: 320px;
 				height: 180px;
 				border-radius: 12px;
 				box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 				z-index: 20;
 				object-fit: cover;
-				display: none; /* hidden until target found */
 			}
-			#socialContainer {
-				position: absolute;
+
+			/* Logo always visible at center-bottom */
+			#logoBox {
+				position: fixed;
 				left: 50%;
-				bottom: 10%;
+				bottom: 28%;
+				transform: translateX(-50%);
+				text-align: center;
+				z-index: 20;
+				color: white;
+			}
+
+			#logoBox img {
+				width: 100px;
+				height: 100px;
+				object-fit: cover;
+				border-radius: 50%;
+				border: 2px solid white;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+			}
+
+			#logoBox h2 {
+				margin: 8px 0 2px;
+				font-size: 1.2em;
+			}
+
+			#logoBox p {
+				margin: 0;
+				font-size: 0.95em;
+				opacity: 0.85;
+			}
+
+			/* Social buttons */
+			#socialContainer {
+				position: fixed;
+				left: 50%;
+				bottom: 5%;
 				transform: translateX(-50%);
 				display: flex;
 				flex-direction: column;
@@ -34,28 +79,9 @@
 				z-index: 10;
 				align-items: center;
 				justify-content: center;
-				opacity: 0; /* hidden initially */
-				pointer-events: auto;
-				transition: opacity 0.3s ease;
 				background-color: rgba(0, 0, 0, 0.4);
 				backdrop-filter: blur(6px);
 				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-			}
-
-			#socialContainer.show {
-				opacity: 1;
-			}
-
-			/* Dark/light mode */
-			@media (prefers-color-scheme: dark) {
-				#socialContainer {
-					background-color: rgba(255, 255, 255, 0.25);
-				}
-			}
-			@media (prefers-color-scheme: light) {
-				#socialContainer {
-					background-color: rgba(0, 0, 0, 0.35);
-				}
 			}
 
 			.row {
@@ -78,25 +104,37 @@
 	</head>
 
 	<body>
+		<!-- ✅ Camera Feed -->
+		<video id="cameraFeed" autoplay playsinline muted></video>
+
+		<!-- ✅ Fixed video -->
 		<video
 			id="fixedVideo"
 			src="https://abusaeed-shuvo.github.io/arcard/videos/intro.mp4"
-			loop
+			autoplay
 			muted
 			playsinline
-			crossorigin="anonymous"
+			loop
 		></video>
 
+		<!-- ✅ Always visible logo + text -->
+		<div id="logoBox">
+			<img
+				src="https://abusaeed-shuvo.github.io/arcard/img/profile.png"
+				alt="Profile"
+			/>
+			<h2>Abusaeed Shuvo</h2>
+			<p>Android & AR Developer</p>
+		</div>
+
+		<!-- ✅ Social buttons -->
 		<div id="socialContainer">
-			<!-- First row -->
 			<div class="row">
 				<img id="facebookIcon" class="social-icon" src="./icons/facebook.png" />
 				<img id="linkedinIcon" class="social-icon" src="./icons/linkedin.png" />
 				<img id="whatsappIcon" class="social-icon" src="./icons/whatsapp.png" />
 				<img id="locationIcon" class="social-icon" src="./icons/location.png" />
 			</div>
-
-			<!-- Second row -->
 			<div class="row">
 				<img id="phoneIcon" class="social-icon" src="./icons/call.png" />
 				<img id="mailIcon" class="social-icon" src="./icons/mail.png" />
@@ -104,91 +142,24 @@
 				<img id="contactIcon" class="social-icon" src="./icons/contact.png" />
 			</div>
 		</div>
-		<a-scene
-			mindar-image="imageTargetSrc: https://abusaeed-shuvo.github.io/arcard/targets/targets.mind; 
-                     uiLoading: false; 
-                     uiScanning: false;"
-			color-space="sRGB"
-			renderer="colorManagement: true, physicallyCorrectLights"
-			vr-mode-ui="enabled: false"
-			device-orientation-permission-ui="enabled: false"
-		>
-			<a-assets>
-				<img
-					id="cardPNG"
-					src="https://abusaeed-shuvo.github.io/arcard/img/bc1.png"
-				/>
-			</a-assets>
 
-			<a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-
-			<!-- AR Target -->
-			<a-entity
-				mindar-image-target="targetIndex: 0"
-				animation__smoothpos="property: position; dur: 200; easing: easeOutQuad"
-				animation__smoothrot="property: rotation; dur: 200; easing: easeOutQuad"
-			>
-				<!-- CardPNG -->
-
-				<a-plane
-					src="#cardPNG"
-					width="1"
-					height="0.5"
-					position="0 0.8 0.05"
-					rotation="0 0 0"
-					material="transparent: true"
-				></a-plane>
-
-				<!-- Intro Video -->
-				<a-video
-					src="#introVideo"
-					position="0 -0.8 0"
-					width="0.9"
-					height="0.5"
-					rotation="0 0 0"
-					material="shader: flat;"
-				></a-video>
-			</a-entity>
-		</a-scene>
-
+		<!-- ✅ Minimal script: open camera & handle links -->
 		<script>
-			AFRAME.registerComponent("responsive-scale", {
-				schema: { base: { default: 1 } },
-				init() {
-					const el = this.el;
-					const mindarTarget = el.closest("[mindar-image-target]");
-					const baseScale = this.data.base;
-					const resize = () => {
-						const aspect = window.innerWidth / window.innerHeight;
-						// scale to keep proportions roughly screen-based
-						const scale =
-							baseScale * (aspect > 1 ? aspect / 1.5 : 1.5 / aspect);
-						el.object3D.scale.set(scale, scale, scale);
-					};
-					window.addEventListener("resize", resize);
-					resize();
+			// Open back camera
+			async function startCamera() {
+				try {
+					const stream = await navigator.mediaDevices.getUserMedia({
+						video: { facingMode: "environment" },
+						audio: false,
+					});
+					document.getElementById("cameraFeed").srcObject = stream;
+				} catch (e) {
+					alert("Camera access denied or unavailable.");
+				}
+			}
+			startCamera();
 
-					// if you only want scaling when visible:
-					mindarTarget.addEventListener("targetFound", resize);
-				},
-			});
-			const fixedVideo = document.getElementById("fixedVideo");
-			const socialContainer = document.getElementById("socialContainer");
-			const target = document.querySelector("[mindar-image-target]");
-
-			target.addEventListener("targetFound", () => {
-				socialContainer.classList.add("show");
-				fixedVideo.style.display = "block";
-				setTimeout(() => fixedVideo.play(), 200);
-			});
-
-			target.addEventListener("targetLost", () => {
-				socialContainer.classList.remove("show");
-				fixedVideo.pause();
-				fixedVideo.style.display = "none";
-			});
-
-			// Social icon click/tap events
+			// Social actions
 			const actions = {
 				facebookIcon: () =>
 					window.open("https://www.facebook.com/yourusername", "_blank"),
@@ -206,7 +177,7 @@
 				websiteIcon: () => window.open("https://www.yourwebsite.com", "_blank"),
 				contactIcon: () => window.open("./my-contact.vcf", "_blank"),
 			};
-			// Attach both click and touchstart for mobile
+
 			Object.keys(actions).forEach((id) => {
 				const el = document.getElementById(id);
 				el.addEventListener("click", actions[id]);
